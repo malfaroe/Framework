@@ -1,33 +1,53 @@
-#Testing a massive feature generator
+#Testing a massive feature generator both for num and cat
 
 import pandas as pd 
 import numpy as np 
+import config
 
 from itertools import combinations 
 
+#Input data structure: train+test+target
+#Processing all but target
+
+df = pd.read_csv(config.HYPER_FILE)
+#Selecciona todas las cols excepto target
+df_sel = df.loc[:, df.columns != config.TARGET]
+print("df_sel columns:",df_sel.columns)
+print(config.TARGET)
+
+#Splitting cat and nums
+cat_feats = df_sel.select_dtypes(include= object).columns
+num_feats = df_sel.select_dtypes(exclude = object).columns
 
 
-df = pd.read_csv("../input/train_cat.csv")
-# df = df.iloc[:1000, :] # recorto
+print("Initial features", df_sel.shape[1])
+print("Cat feats:", cat_feats)
+print("Num feats:", num_feats)
 
-cat_feats = df.select_dtypes(include= object).columns
 
-#Crear features que cuentan cuantas ocurrencias
-#hay de cada id por clase dentro del feat
-
-for col in cat_feats:
-    df["count" +"_"+ col] = df.groupby([col])["id"].transform("count")
-
-#Crear combinaciones de categoricals
+#Categorical processing
+# Crear combinaciones de categoricals
 pairs = list(combinations(cat_feats, 2))
 for pair in pairs:
-    df[pair[0] + "_" + pair[1]] = df[pair[0]].astype(str)+ "_" 
-    + df[pair[1]].astype(str)
+    df_sel[pair[0] + "_" + pair[1]] = df_sel[pair[0]].astype(str)+ "_" 
+    + df_sel[pair[1]].astype(str)
 
 
-print("Generated features:", df.shape[1])
+print("Total new features:", df_sel.shape[1])
+print(df_sel.columns)
+
+
+
+#Numerical features
+#binning
+#polynomial
+
+
+#Get back together with target
+df = pd.concat((df[config.TARGET], df_sel), axis = 1)
 
 #Save the data with new features
 df.to_csv("../input/data_feat_gen.csv", index  = False)
+print("Final features and target:", df.columns)
 
 

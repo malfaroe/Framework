@@ -1,5 +1,7 @@
 Implementation of a simple project framework for building up from here.
 PIPELINE:
+1. Feature generator
+2. Feature encoding
 1. data_split
 2. baseline: baseline with linear algorithms
 3. baseline_ensemble: baseline with ensemble  algorithms

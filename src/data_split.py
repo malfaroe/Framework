@@ -7,9 +7,10 @@ from sklearn.model_selection import train_test_split
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(config.DF, index_col = 0)
+    df = pd.read_csv(config.DF)
     target = config.TARGET
     seed = config.SEED
+    print(df.head())
     # y = df.iloc[:, target]
     # X = df.drop(df.columns[target], axis=1)
     y = df.pop(target)
