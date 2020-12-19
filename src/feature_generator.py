@@ -9,18 +9,18 @@ from itertools import combinations
 #Input data structure: train+test+target
 #Processing all but target
 
-df = pd.read_csv(config.HYPER_FILE)
+df = pd.read_csv(config.INPUT_FILE, index_col= 0)
+print("Entry file:", df.columns)
 #Selecciona todas las cols excepto target
 df_sel = df.loc[:, df.columns != config.TARGET]
 print("df_sel columns:",df_sel.columns)
-print(config.TARGET)
 
 #Splitting cat and nums
 cat_feats = df_sel.select_dtypes(include= object).columns
 num_feats = df_sel.select_dtypes(exclude = object).columns
 
 
-print("Initial features", df_sel.shape[1])
+print("Initial features:", df_sel.shape[1])
 print("Cat feats:", cat_feats)
 print("Num feats:", num_feats)
 
@@ -38,7 +38,8 @@ print(df_sel.columns)
 
 
 
-#Numerical features
+#PART 2: #Create new numerical feats: binning, polynomial feats
+
 #binning
 #polynomial
 
@@ -48,6 +49,7 @@ df = pd.concat((df[config.TARGET], df_sel), axis = 1)
 
 #Save the data with new features
 df.to_csv("../input/data_feat_gen.csv", index  = False)
+print("Final features:", df.shape[1])
 print("Final features and target:", df.columns)
 
 

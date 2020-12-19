@@ -33,13 +33,19 @@
 # SEED = 42
 # SCORING = "accuracy"
 
-TRAINING_FILE   = "../input/train_folds.csv"
-HYPER_FILE = "../input/titanic_total.csv"
-TEST_FILE = "../input/titanic_test.csv"
+
+INPUT_FILE = "../input/titanic_total.csv"
+KAGGLE = True
+TRAINING_FILE   = "../input/train_final.csv"
+HYPER_FILE = "../input/titanic.csv"
+TEST_FILE = "../input/test3.csv"
 TEST_ID = "../input/test_ID.csv"
 MODEL_OUTPUT = "../models/"
-DF = "../input/data_final.csv"
+DF = "../input/titanic.csv"
 TARGET = "Survived"
 FOLDS = 10
 SEED = 42
 SCORING = "accuracy"
+
+#INPUT_FILE: DATA THAT ENTERS IN THE PIPELINE  TO FEATURE GENERATOR
+#KAGGLE = IF TRUE  INPUT_FILE IS TRAIN+TEST+TARGET
