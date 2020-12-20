@@ -43,11 +43,20 @@ def run_tuning(models, X, y):
             "Best Score":gs_mod.best_score_},
             ignore_index = True)
     print(report.sort_values(by = "Best Score", ascending = False))
+    
+    #Save the best 3 algorithms
+    best = report.sort_values(by = "Best Score", ascending = False).head(3)
+    best_models = list(best["Algorithm"].values)
+    print(best_models)
+    for model in best_models:
+        joblib.dump(model.best_estimator, os.path.join(config.BEST_MODELS,
+         f"../models/bestModels/model_{model}.bin"))
+    
    
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(config.DF)
+  
     target = config.TARGET
     num_folds = config.FOLDS
     seed = config.SEED

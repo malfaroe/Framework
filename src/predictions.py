@@ -12,12 +12,12 @@ if __name__ == "__main__":
     target = config.TARGET
     #Read inputs
     model_name = glob.glob("../models" + "/model_GradientBoosting.bin")
-    X_test = pd.read_csv(config.TEST_FILE, index_col = 0)
-    X_train =  pd.read_csv("../input/X_train.csv")
+    X_test = pd.read_csv(config.TEST_FILE)
+    # X_train =  pd.read_csv("../input/X_train.csv")
 
     #Adapt feature columns of test set
-    columns = X_train.columns
-    X_test = X_test[columns]
+    # columns = X_train.columns
+    # X_test = X_test[columns]
     #Predict
     model = joblib.load(model_name[0])
     y_pred = model.predict(X_test)

@@ -54,7 +54,6 @@ def run_cv(models, X_train):
 
 
 if __name__ == "__main__":
-    df = pd.read_csv(config.DF)
     target = config.TARGET
     num_folds = config.FOLDS
     seed = config.SEED
