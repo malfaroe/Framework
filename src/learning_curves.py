@@ -56,7 +56,7 @@ if __name__ == "__main__":
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
     scoring = config.SCORING
-    all_files = glob.glob("../models" + "/*.bin")
+    all_files = glob.glob("../models/bestModels" + "/*.bin")
 
     for filename in all_files:
         model = joblib.load(filename)

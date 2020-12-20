@@ -16,8 +16,8 @@ import glob
 ##FEATURE IMPORTANCE
 
 def feat_importance(all_files, X_train):
-    nrows = 3
-    ncols = 2
+    nrows = 2
+    ncols = 1
     fig, axes = plt.subplots(nrows = nrows, ncols = ncols, sharex="all", figsize=(15,15))
     names_classifiers = []
     nclassifier = 0
@@ -53,7 +53,7 @@ if __name__ == "__main__":
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
     scoring = config.SCORING
-    all_files = glob.glob("../models" + "/*.bin")
+    all_files = glob.glob("../models/bestModels" + "/*.bin")
     feat_importance(all_files, X_train)
 
     

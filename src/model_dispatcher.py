@@ -12,12 +12,12 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 
 MODELS =    {
-    "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
+    # "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
     "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     "GradientBoosting":GradientBoostingClassifier(random_state = 42),
-    "AdaBoostClassifier": AdaBoostClassifier(tree.DecisionTreeClassifier(), random_state = 42)
+    #"AdaBoostClassifier": AdaBoostClassifier(tree.DecisionTreeClassifier(), random_state = 42)
     
 } 
 

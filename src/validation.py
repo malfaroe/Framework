@@ -54,7 +54,7 @@ if __name__ == "__main__":
     y_val =  pd.read_csv("../input/y_val.csv").values.ravel()
 
     scoring = config.SCORING
-    all_files = glob.glob("../models" + "/*.bin")
+    all_files = glob.glob("../models/bestModels" + "/*.bin")
 
     val_scores(all_files, X_val, y_val)
     

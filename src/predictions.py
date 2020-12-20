@@ -11,7 +11,7 @@ import glob #For importing files
 if __name__ == "__main__":
     target = config.TARGET
     #Read inputs
-    model_name = glob.glob("../models" + "/model_GradientBoosting.bin")
+    model_name = glob.glob("../models/bestModels" + "/model_RandomForest.bin")
     X_test = pd.read_csv(config.TEST_FILE)
     # X_train =  pd.read_csv("../input/X_train.csv")
 

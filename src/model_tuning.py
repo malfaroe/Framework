@@ -2,6 +2,7 @@ import os
 import config
 import model_dispatcher
 import argparse 
+import glob
 
 import joblib
 import pandas as pd 
@@ -24,7 +25,7 @@ from sklearn.ensemble import AdaBoostClassifier
 
 def run_tuning(models, X, y):
     kfold = StratifiedKFold(n_splits= config.FOLDS) #must be equal to FOLDS
-    dict = {"Algorithm":[], "Best Score":[]}
+    dict = {"Algorithm":[], "Model_detail":[], "Best Score":[]}
     report = pd.DataFrame(dict)
 
     for model in models:
@@ -39,24 +40,25 @@ def run_tuning(models, X, y):
         #Save the model
         joblib.dump(gs_mod, os.path.join(config.MODEL_OUTPUT,
          f"../models/model_{model}.bin"))
-        report  = report.append({"Algorithm":model, 
+        report  = report.append({"Algorithm":model, "Model_detail": gs_mod,
             "Best Score":gs_mod.best_score_},
             ignore_index = True)
-    print(report.sort_values(by = "Best Score", ascending = False))
+    print(report[["Algorithm", "Best Score"]].sort_values(by = "Best Score", ascending = False))
     
     #Save the best 3 algorithms
     best = report.sort_values(by = "Best Score", ascending = False).head(3)
-    best_models = list(best["Algorithm"].values)
-    print(best_models)
-    for model in best_models:
-        joblib.dump(model.best_estimator, os.path.join(config.BEST_MODELS,
-         f"../models/bestModels/model_{model}.bin"))
+    # best_models = best["Model_detail"].values
+    for model, name in zip(best["Model_detail"], best["Algorithm"]):
+        joblib.dump(model, os.path.join(config.BEST_MODELS,
+         f"model_{name}.bin"))
     
    
 
 
 if __name__ == "__main__":
-  
+    files = glob.glob("../models/bestModels/*")
+    for f in files:
+        os.remove(f)
     target = config.TARGET
     num_folds = config.FOLDS
     seed = config.SEED
