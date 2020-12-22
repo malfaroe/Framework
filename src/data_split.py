@@ -10,7 +10,6 @@ if __name__ == "__main__":
     df = pd.read_csv(config.TRAINING_FILE)
     target = config.TARGET
     seed = config.SEED
-    print(df.head())
     # y = df.iloc[:, target]
     # X = df.drop(df.columns[target], axis=1)
     y = df.pop(target)

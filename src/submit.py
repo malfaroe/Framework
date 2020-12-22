@@ -16,7 +16,7 @@ if __name__ == "__main__":
     y_pred = joblib.load(pred_file[0])
     submit = pd.DataFrame()
     submit = pd.concat((submit, test_ID), axis =1)
-    submit['Survived'] = y_pred
+    submit[target] = y_pred
     # submit['PassengerId'] = test_ID
     # submit['Survived'] = y_pred
     submit.to_csv("../input/submission.csv", index = False)

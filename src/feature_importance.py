@@ -17,28 +17,91 @@ from yellowbrick.model_selection import FeatureImportances
 import warnings
 warnings.filterwarnings("ignore")
 
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestRegressor, RandomForestClassifier
+from xgboost import XGBClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+
+from sklearn.feature_selection import SelectFromModel
+
 
 ##FEATURE IMPORTANCE
 
-def feat_importance(all_files, X_train, y_train):
-    names_classifiers = []
-    for filename in all_files:
-        model = joblib.load(filename)
-        names_classifiers.append((filename, model.best_estimator_))
+# def feat_importance(all_files, X_train, y_train):
+#     names_classifiers = []
+#     for filename in all_files:
+#         model = joblib.load(filename)
+#         names_classifiers.append((filename, model.best_estimator_))
 
-    for name, model in names_classifiers:
-        viz = FeatureImportances(model)
-        viz.fit(X_train, y_train)
-        viz.show()
+#     for name, model in names_classifiers:
+#         viz = FeatureImportances(model)
+#         importance = model.feature_importances_
+#         viz.fit(X_train, y_train)
+#         print("MODEL:", name)
+#         for i,v in enumerate(importance):
+#     	    print('Feature: %0d, Score: %.5f' % (i,v))
+
+#         viz.show()
+
 
 
 
 if __name__ == "__main__":
     
-    X_train =  pd.read_csv("../input/X_train.csv")
-    y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
+    X_train =  pd.read_csv("../input/train_final.csv")
+    X_test =  pd.read_csv("../input/test_final.csv")
+    y_train = X_train.pop(config.TARGET)
+
+
+    # y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
     all_files = glob.glob("../models/bestModels" + "/*.bin")
-    feat_importance(all_files, X_train, y_train)
+
+    #Split into train and test datasets
+    X_t, X_val, y_t, y_val = train_test_split(X_train,y_train, test_size = 0.33, random_state = 1)
+
+    #Fit a model
+    model = LogisticRegression(solver = "liblinear")
+    model.fit(X_t, y_t)
+
+    #Evaluate the model
+    y_pred = model.predict(X_val)
+    acc = accuracy_score(y_pred, y_val)
+
+    #Results
+    print('Accuracy of baseline model with all features: %.2f' % (acc*100))
+
+    #Selectfrom Model (select the 20 best features)
+    fs = SelectFromModel(RandomForestClassifier(n_estimators = 200), max_features = 15)
+    #Fit
+    fs.fit(X_t, y_t)
+    #Transform train data
+    X_train_fs = fs.transform(X_t)
+    #Transform test data
+    X_val_fs = fs.transform(X_val)
+    feature_idx = fs.get_support()
+    feature_name = X_train.columns[feature_idx]
+    print("Selected features", feature_name)
+    #Fit a model
+    model = LogisticRegression(solver = "liblinear")
+    model.fit(X_train_fs, y_t)
+
+    #Evaluate the model
+    y_pred = model.predict(X_val_fs)
+    acc = accuracy_score(y_pred, y_val)
+
+    #Results
+    print('Accuracy of the selected feature model: %.2f' % (acc*100))
+
+    X_train = pd.concat((y_train, X_train[feature_name]), axis = 1)
+    print("Colummans:", X_train.columns)
+    if config.KAGGLE == True:
+        X_test = X_test[feature_name] # actualizo columnas
+        X_test.to_csv("../input/new_test_final.csv",index  = False)
+        print("Shape of test:", X_test.shape)
+
+
+    #Guardar el datset con las columnas seleccionadas para pasar a data_split
+    X_train.to_csv("../input/new_train_final.csv",index  = False)
 
     
-    #

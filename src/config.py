@@ -36,9 +36,9 @@
 
 INPUT_FILE = "../input/titanic_total.csv"
 KAGGLE = True
-TRAINING_FILE   = "../input/train_final.csv"
+TRAINING_FILE   = "../input/new_train_final.csv"
 HYPER_FILE = "../input/titanic.csv"
-TEST_FILE = "../input/test_final.csv"
+TEST_FILE = "../input/new_test_final.csv"
 TEST_ID = "../input/test_ID.csv"
 MODEL_OUTPUT = "../models/"
 BEST_MODELS = "../models/bestModels"
