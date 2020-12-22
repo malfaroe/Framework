@@ -5,6 +5,8 @@ import numpy as np
 import config
 
 from itertools import combinations 
+from sklearn.preprocessing import PolynomialFeatures
+
 
 #Input data structure: train+test+target
 #Processing all but target
@@ -42,6 +44,12 @@ print(df_sel.columns)
 
 #binning
 #polynomial
+
+#4. Polynomial regressor of order 3 with ConstructArea (1,a,a2,a3)
+print("Polynomial regressor of order 2:")
+poly_2 = PolynomialFeatures(degree=2, interaction_only=False,
+include_bias=False) #instanciamos
+X_cubic = cubic.fit_transform(x_train[:,0].reshape(-1,1)) # se crean todos los features nuevo
 
 
 #Get back together with target
