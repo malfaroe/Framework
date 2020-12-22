@@ -49,11 +49,12 @@ print(df_sel.columns)
 print("Polynomial regressor of order 2:")
 poly_2 = PolynomialFeatures(degree=2, interaction_only=False,
 include_bias=False) #instanciamos
-X_cubic = cubic.fit_transform(x_train[:,0].reshape(-1,1)) # se crean todos los features nuevo
-
+poly = poly_2.fit_transform(df_sel[num_feats]) # se crean todos los features nuevo
+col_poly = ["poly" + str(i) for i in range(poly.shape[1])]
+df_poly = pd.DataFrame(poly, columns = col_poly)
 
 #Get back together with target
-df = pd.concat((df[config.TARGET], df_sel), axis = 1)
+df = pd.concat((df[config.TARGET], df_sel, df_poly), axis = 1)
 
 #Save the data with new features
 df.to_csv("../input/data_feat_gen.csv", index  = False)
