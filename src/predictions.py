@@ -15,7 +15,7 @@ if __name__ == "__main__":
     X_test = pd.read_csv(config.TEST_FILE)
     # X_train =  pd.read_csv("../input/X_train.csv")
 
-    #Adapt feature columns of test set
+    # #Adapt feature columns of test set
     # columns = X_train.columns
     # X_test = X_test[columns]
     #Predict

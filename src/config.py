@@ -50,3 +50,18 @@ SCORING = "accuracy"
 
 #INPUT_FILE: DATA THAT ENTERS IN THE PIPELINE  TO FEATURE GENERATOR
 #KAGGLE = IF TRUE  INPUT_FILE IS TRAIN+TEST+TARGET
+
+##USING KORTICAL PREPROCESSING
+# INPUT_FILE = "../input/titanic_total.csv"
+# KAGGLE = True
+# TRAINING_FILE   = "../input/train_kortical.csv"
+# HYPER_FILE = "../input/titanic.csv"
+# TEST_FILE = "../input/test_final.csv"
+# TEST_ID = "../input/test_ID.csv"
+# MODEL_OUTPUT = "../models/"
+# BEST_MODELS = "../models/bestModels"
+# DF = "../input/titanic.csv"
+# TARGET = "Survived"
+# FOLDS = 10
+# SEED = 42
+# SCORING = "accuracy"
