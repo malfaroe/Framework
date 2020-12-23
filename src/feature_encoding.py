@@ -54,8 +54,9 @@ if config.KAGGLE == True:
     test = df[df[config.TARGET] == -1]
     print(test.head(2))
     print("Test shape", test.shape)
-    test.drop(columns = config.TARGET, axis = 1, inplace = True)
-    test.to_csv("../input/test_final.csv",
+    new_test = test.copy()
+    new_test.drop(columns = config.TARGET, axis = 1, inplace = True)
+    new_test.to_csv("../input/test_final.csv",
     index  = False)
 
 
@@ -65,4 +66,4 @@ else:
 
 #Si se trata de una competencia de Kaggle genera train y test por separado
 #Si no, solamente genera el train procesado
-
+print(new_test.head(2))
