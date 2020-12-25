@@ -25,6 +25,8 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
+from catboost import CatBoostClassifier
+
 
 import sklearn.metrics as metrics
 from sklearn.metrics import accuracy_score

@@ -34,7 +34,7 @@
 # SCORING = "accuracy"
 
 
-INPUT_FILE = "../input/titanic_total.csv"
+INPUT_FILE = "../input/titanic_total.csv" 
 KAGGLE = True
 TRAINING_FILE   = "../input/new_train_final.csv"
 HYPER_FILE = "../input/titanic.csv"
@@ -54,7 +54,7 @@ SCORING = "accuracy"
 ##USING KORTICAL PREPROCESSING
 # INPUT_FILE = "../input/titanic_total.csv"
 # KAGGLE = True
-# TRAINING_FILE   = "../input/train_kortical.csv"
+# TRAINING_FILE   = "../input/train_final-1.csv"
 # HYPER_FILE = "../input/titanic.csv"
 # TEST_FILE = "../input/test_final.csv"
 # TEST_ID = "../input/test_ID.csv"

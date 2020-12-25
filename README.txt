@@ -9,5 +9,6 @@ PIPELINE:
 4. model_tuning
 5. learning_curves
 5. validation
+6. Ensembles: Voting Classifier with the best models
 6. predictions: predict using test set and different configurations (average, single, etc)
 7.submit 

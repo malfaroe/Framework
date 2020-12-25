@@ -10,6 +10,8 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.ensemble import GradientBoostingClassifier 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
+from catboost import CatBoostClassifier
+
 
 MODELS =    {
     # "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
@@ -17,7 +19,7 @@ MODELS =    {
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     "GradientBoosting":GradientBoostingClassifier(random_state = 42),
-    #"AdaBoostClassifier": AdaBoostClassifier(tree.DecisionTreeClassifier(), random_state = 42)
+    "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0)
     
 } 
 
@@ -68,6 +70,11 @@ ADA_PARAMS = {"base_estimator__criterion": ["gini", "entropy"],
                      "n_estimators": [1,2,50, 100, 500],
                  "learning_rate": [0.0001, 0.001, 0.01, 0.1,0.5,  1.0, 1.5]}
 
+CB_PARAMS = {'depth'         : [4,5,6,7,8,9, 10],
+                 'learning_rate' : [0.01,0.02,0.03,0.04],
+                  'iterations'    : [10, 20,30,40,50,60,70,80,90, 100]
+                 }
+
 
 model_param =   {
     "decision_tree_gini": DTG_PARAMS,
@@ -75,7 +82,7 @@ model_param =   {
     "RandomForest": RF_PARAMS,
     "ExtraTrees": XT_PARAMS,
     "GradientBoosting":GBC_PARAMS,
-    "AdaBoostClassifier": ADA_PARAMS
+    "CatBoostClassifier": CB_PARAMS
     
 } 
 

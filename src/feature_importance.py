@@ -28,24 +28,6 @@ from sklearn.feature_selection import SelectFromModel
 
 ##FEATURE IMPORTANCE
 
-# def feat_importance(all_files, X_train, y_train):
-#     names_classifiers = []
-#     for filename in all_files:
-#         model = joblib.load(filename)
-#         names_classifiers.append((filename, model.best_estimator_))
-
-#     for name, model in names_classifiers:
-#         viz = FeatureImportances(model)
-#         importance = model.feature_importances_
-#         viz.fit(X_train, y_train)
-#         print("MODEL:", name)
-#         for i,v in enumerate(importance):
-#     	    print('Feature: %0d, Score: %.5f' % (i,v))
-
-#         viz.show()
-
-
-
 
 if __name__ == "__main__":
     
@@ -69,10 +51,11 @@ if __name__ == "__main__":
     acc = accuracy_score(y_pred, y_val)
 
     #Results
+    print("Initial shape of dataset:", X_train.shape)
     print('Accuracy of baseline model with all features: %.2f' % (acc*100))
 
     #Selectfrom Model (select the 20 best features)
-    fs = SelectFromModel(RandomForestClassifier(n_estimators = 200), max_features = 15)
+    fs = SelectFromModel(RandomForestClassifier(n_estimators = 200), max_features = 25)
     #Fit
     fs.fit(X_t, y_t)
     #Transform train data
@@ -94,7 +77,8 @@ if __name__ == "__main__":
     print('Accuracy of the selected feature model: %.2f' % (acc*100))
 
     X_train = pd.concat((y_train, X_train[feature_name]), axis = 1)
-    print("Colummans:", X_train.columns)
+    print("Columnas X_train:", X_train.columns)
+    
     if config.KAGGLE == True:
         X_test = X_test[feature_name] # actualizo columnas
         X_test.to_csv("../input/new_test_final.csv",index  = False)
