@@ -14,13 +14,17 @@ from catboost import CatBoostClassifier
 
 
 MODELS =    {
-    # "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
+    "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
     "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     "GradientBoosting":GradientBoostingClassifier(random_state = 42),
     "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
-    'SVM': SVC()
+    'SVM': SVC(),
+    'LinearDiscriminant': LinearDiscriminantAnalysis(),
+    "KNearest_Neighbour": KNeighborsClassifier(),
+    'LogisticRegression': LogisticRegression(max_iter = 1000000)
+
     
 } 
 
@@ -80,10 +84,10 @@ SVM_PARAMS = {'C': [0.1, 1, 10, 100, 1000],
               'gamma': [1, 0.1, 0.01, 0.001, 0.0001], 
               'kernel': ['rbf']}  
 
-# KNN_PARAMS = {"n_neighbors": [3,5,11,19,23,31], 
-#                 "weights": ["uniform", "distance"],
-#                 "metric": ["euclidean", "manhattan"]
-                # }
+KNN_PARAMS = {"n_neighbors": [3,5,11,19,23,31], 
+                "weights": ["uniform", "distance"],
+                "metric": ["euclidean", "manhattan"]
+                }
 
 
 model_param =   {
@@ -93,8 +97,9 @@ model_param =   {
     "ExtraTrees": XT_PARAMS,
     "GradientBoosting":GBC_PARAMS,
     "CatBoostClassifier": CB_PARAMS,
-    "SVM": SVM_PARAMS
-    # "KNearest_Neighbour": KNN_PARAMS
+    "SVM": SVM_PARAMS,
+    "KNearest_Neighbour": KNN_PARAMS,
+
     
 } 
 

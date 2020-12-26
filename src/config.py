@@ -42,6 +42,7 @@ TEST_FILE = "../input/new_test_final.csv"
 TEST_ID = "../input/test_ID.csv"
 MODEL_OUTPUT = "../models/"
 BEST_MODELS = "../models/bestModels"
+PRESELECTED_MODELS = "../models/preselected"
 DF = "../input/titanic.csv"
 TARGET = "Survived"
 FOLDS = 10
