@@ -23,7 +23,7 @@ MODELS =    {
     
 } 
 
-LINEAR_MODELS = {'LogisticRegression': LogisticRegression(max_iter = 10000),
+LINEAR_MODELS = {'LogisticRegression': LogisticRegression(max_iter = 1000000),
 'LinearDiscriminant': LinearDiscriminantAnalysis(),
 "KNearest_Neighbour": KNeighborsClassifier(),
 'CART': DecisionTreeClassifier(),
@@ -70,10 +70,19 @@ ADA_PARAMS = {"base_estimator__criterion": ["gini", "entropy"],
                      "n_estimators": [1,2,50, 100, 500],
                  "learning_rate": [0.0001, 0.001, 0.01, 0.1,0.5,  1.0, 1.5]}
 
-CB_PARAMS = {'depth'         : [4,5,6,7,8,9, 10],
-                 'learning_rate' : [0.01,0.02,0.03,0.04],
-                  'iterations'    : [10, 20,30,40,50,60,70,80,90, 100]
-                 }
+# CB_PARAMS = {'depth'         : [4,5,6,7,8,9, 10],
+#                  'learning_rate' : [0.01,0.02,0.03,0.04],
+#                   'iterations'    : [10, 20,30,40,50,60,70,80,90, 100]
+#                  }
+
+# SVM_PARAMS = {'C': [0.1, 1, 10, 100, 1000],  
+#               'gamma': [1, 0.1, 0.01, 0.001, 0.0001], 
+#               'kernel': ['rbf']}  
+
+# KNN_PARAMS = {"n_neighbors": [3,5,11,19,23,31], 
+#                 "weights": ["uniform", "distance"],
+#                 "metric": ["euclidean", "manhattan"]
+                # }
 
 
 model_param =   {
@@ -82,7 +91,9 @@ model_param =   {
     "RandomForest": RF_PARAMS,
     "ExtraTrees": XT_PARAMS,
     "GradientBoosting":GBC_PARAMS,
-    "CatBoostClassifier": CB_PARAMS
+    # "CatBoostClassifier": CB_PARAMS,
+    # "SVM": SVM_PARAMS
+    # "KNearest_Neighbour": KNN_PARAMS
     
 } 
 

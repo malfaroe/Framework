@@ -15,20 +15,24 @@ if __name__ == "__main__":
     #Read inputs
     model_name = glob.glob("../models/bestModels" + "/model_decision_tree_entropy.bin")
     X_test = pd.read_csv(config.TEST_FILE)
-    # X_train =  pd.read_csv("../input/X_train.csv")
+    X_train =  pd.read_csv(config.TRAINING_FILE)
+    y_train = X_train.pop(config.TARGET)
 
-    # #Adapt feature columns of test set
+    # #testing bugs
+    # print(X_train.columns)
+    # print(X_test.columns)
+
+    # # #Adapt feature columns of test set
     # columns = X_train.columns
     # X_test = X_test[columns]
     
     #Predict
     model = joblib.load(model_name[0])
-
-    #Use the entire training dataset
-    #AQUI MODEL.FIT(TRAIN_FINAL, Y TOTAL TRAIN)
-
-    
+    print("Model fitting...")
+    model.fit(X_train, y_train)
+    print("Predicting...")
     y_pred = model.predict(X_test)
+    print("Prediction done.")
 
     #Save prediction
     joblib.dump(y_pred, os.path.join("../input",

@@ -25,7 +25,8 @@ from sklearn.ensemble import AdaBoostClassifier
 
 def run_tuning(models, X, y):
     kfold = StratifiedKFold(n_splits= config.FOLDS) #must be equal to FOLDS
-    dict = {"Algorithm":[], "Model_detail":[], "Best Score":[]}
+    dict = {"Algorithm":[], "Model_detail":[], "Best Score":[], 
+    "Std_test_score": []}
     report = pd.DataFrame(dict)
 
     for model in models:
@@ -33,7 +34,8 @@ def run_tuning(models, X, y):
         print(models[model])
         mod = models[model]
         mod_params = model_dispatcher.model_param[model]
-        gs_mod = GridSearchCV(mod, param_grid = mod_params, cv = kfold, scoring = "accuracy",
+        gs_mod = GridSearchCV(mod, param_grid = mod_params, cv = kfold,
+         scoring = "accuracy",
                         n_jobs = -1, verbose = 0)
         gs_mod.fit(X, y)
         gs_best = gs_mod.best_estimator_
@@ -41,9 +43,10 @@ def run_tuning(models, X, y):
         joblib.dump(gs_mod, os.path.join(config.MODEL_OUTPUT,
          f"../models/model_{model}.bin"))
         report  = report.append({"Algorithm":model, "Model_detail": gs_mod,
-            "Best Score":gs_mod.best_score_},
+            "Best Score":gs_mod.best_score_, 
+            "Std_test_score": gs_mod.cv_results_["std_test_score"].mean()},
             ignore_index = True)
-    print(report[["Algorithm", "Best Score"]].sort_values(by = "Best Score", ascending = False))
+    print(report[["Algorithm", "Best Score", "Std_test_score"]].sort_values(by = "Best Score", ascending = False))
     
     #Save the best 3 algorithms
     best = report.sort_values(by = "Best Score", ascending = False).head(4)

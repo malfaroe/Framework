@@ -41,9 +41,9 @@ print("Total new features after cat combinations:", df_sel.shape[1])
 # #PART 2: #Create new numerical feats: binning, polynomial feats
 
 # #binning
-# #polynomial
 
-# #4. Polynomial regressor of order 3 with ConstructArea (1,a,a2,a3)
+
+# Polynomial regressor of order 3 with ConstructArea (1,a,a2,a3)
 print("Polynomial regressor of order 2:")
 poly_2 = PolynomialFeatures(degree=2, interaction_only=False,
 include_bias=False) #instanciamos

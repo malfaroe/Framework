@@ -52,7 +52,7 @@ def VotingEnsemble(estimators, X_train, y_train):
     # #save the votingclassifier
     joblib.dump(ensemble, os.path.join(config.MODEL_OUTPUT,
          f"../models/ensembleModel/model_{name}.bin"))
-    print("VotingClassifier Train Results:", results.mean())
+    print("VotingClassifier Train Results:", results.mean(), results.std())
     #Validation in y_val
     
     ensemble.fit(X_train, y_train)

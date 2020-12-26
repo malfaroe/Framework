@@ -86,6 +86,8 @@ if __name__ == "__main__":
 
 
     #Guardar el datset con las columnas seleccionadas para pasar a data_split
-    X_train.to_csv("../input/new_train_final.csv",index  = False)
+    print("Columnas finales X_train:", X_train.columns)
+    X_train.to_csv("../input/new_train_final.csv",
+    index  = False)
 
     

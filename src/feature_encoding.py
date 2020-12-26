@@ -66,4 +66,3 @@ else:
 
 #Si se trata de una competencia de Kaggle genera train y test por separado
 #Si no, solamente genera el train procesado
-print(new_test.head(2))
