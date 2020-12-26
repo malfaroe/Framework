@@ -61,12 +61,12 @@ if __name__ == "__main__":
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
     scoring = config.SCORING
     models = model_dispatcher.LINEAR_MODELS
-    print("PRE-RESCALING:")
+    print("LINEAR MODEL POST-SCALED RESULTS:")
     run_cv(models, X_train, y_train)
-    scaler = StandardScaler().fit(X_train)
-    XRescaled = scaler.transform(X_train)
+    # scaler = StandardScaler().fit(X_train)
+    # XRescaled = scaler.transform(X_train)
     print("Enter to continue...")
     print("")
-    print("POST-RESCALING:")
-    run_cv(models, XRescaled, y_train)
+    # print("POST-RESCALING:")
+    # run_cv(models, XRescaled, y_train)
  

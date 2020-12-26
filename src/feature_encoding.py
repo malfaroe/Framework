@@ -2,7 +2,7 @@
 import pandas as pd 
 import numpy as np 
 from sklearn import preprocessing
-from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
 
 from sklearn.compose import make_column_transformer
@@ -34,10 +34,15 @@ print("")
 print("Rejoined:")
 print(df_sel.head(2))
 
+#Rescaling for working with linear models and ensemble together
+#testing scaling data
+scaler = StandardScaler().fit(df_sel)
+XRescaled = scaler.transform(df_sel)
+df_rescaled = pd.DataFrame(XRescaled, columns = df_sel.columns)
 
 
 #Get back together with target
-df = pd.concat((df[config.TARGET], df_sel), axis = 1)
+df = pd.concat((df[config.TARGET], df_rescaled), axis = 1)
 print("")
 print("Processed shape:", df.shape)
 print("")
