@@ -19,7 +19,8 @@ MODELS =    {
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     "GradientBoosting":GradientBoostingClassifier(random_state = 42),
-    "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0)
+    "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
+    'SVM': SVC()
     
 } 
 
@@ -70,14 +71,14 @@ ADA_PARAMS = {"base_estimator__criterion": ["gini", "entropy"],
                      "n_estimators": [1,2,50, 100, 500],
                  "learning_rate": [0.0001, 0.001, 0.01, 0.1,0.5,  1.0, 1.5]}
 
-# CB_PARAMS = {'depth'         : [4,5,6,7,8,9, 10],
-#                  'learning_rate' : [0.01,0.02,0.03,0.04],
-#                   'iterations'    : [10, 20,30,40,50,60,70,80,90, 100]
-#                  }
+CB_PARAMS = {'depth'         : [4,5,6,7,8,9, 10],
+                 'learning_rate' : [0.01,0.02,0.03,0.04],
+                  'iterations'    : [10, 20,30,40,50,60,70,80,90, 100]
+                 }
 
-# SVM_PARAMS = {'C': [0.1, 1, 10, 100, 1000],  
-#               'gamma': [1, 0.1, 0.01, 0.001, 0.0001], 
-#               'kernel': ['rbf']}  
+SVM_PARAMS = {'C': [0.1, 1, 10, 100, 1000],  
+              'gamma': [1, 0.1, 0.01, 0.001, 0.0001], 
+              'kernel': ['rbf']}  
 
 # KNN_PARAMS = {"n_neighbors": [3,5,11,19,23,31], 
 #                 "weights": ["uniform", "distance"],
@@ -91,8 +92,8 @@ model_param =   {
     "RandomForest": RF_PARAMS,
     "ExtraTrees": XT_PARAMS,
     "GradientBoosting":GBC_PARAMS,
-    # "CatBoostClassifier": CB_PARAMS,
-    # "SVM": SVM_PARAMS
+    "CatBoostClassifier": CB_PARAMS,
+    "SVM": SVM_PARAMS
     # "KNearest_Neighbour": KNN_PARAMS
     
 } 
