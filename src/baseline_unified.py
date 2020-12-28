@@ -40,23 +40,7 @@ import os
 import joblib
 
 
-# def run_cv(models, X_train):
-#     results = []
-#     names = []
-#     for model in  models:
-#         kfold = StratifiedKFold(n_splits = num_folds)
-#         cv_results = cross_val_score(estimator = models[model], X = X_train, y = y_train, scoring = scoring, cv = kfold)
-#         results.append(cv_results)
-#         names.append(model)
-#         msg = "%s: %f (%f)" % (model, cv_results.mean(), cv_results.std()) 
-#         print(msg)
-#     #Plot the baseline performance of each algorithm
-#     fig = pyplot.figure()
-#     fig.suptitle("Baseline algorithm comparison")
-#     ax = fig.add_subplot(111)
-#     pyplot.boxplot(results)
-#     ax.set_xticklabels(names) 
-#     pyplot.show()
+
 
 def run_cv(models, X, y):
     kfold = StratifiedKFold(n_splits= config.FOLDS) #must be equal to FOLDS
@@ -75,12 +59,12 @@ def run_cv(models, X, y):
     print(report[["Algorithm", "Score", "Std_Error"]].sort_values(by = "Score", 
     ascending = False))
     
-    #Save the best 5 algorithms
-    best = report.sort_values(by = "Score", ascending = False).head(5)
-    # best_models = best["Model_detail"].values
-    for model, name in zip(best["Model_detail"], best["Algorithm"]):
-        joblib.dump(model, os.path.join(config.PRESELECTED_MODELS,
-         f"model_{name}.bin"))
+    # #Save the best 5 algorithms
+    # best = report.sort_values(by = "Score", ascending = False).head(5)
+    # # best_models = best["Model_detail"].values
+    # for model, name in zip(best["Model_detail"], best["Algorithm"]):
+    #     joblib.dump(model, os.path.join(config.PRESELECTED_MODELS,
+    #      f"model_{name}.bin"))
 
 if __name__ == "__main__":
     target = config.TARGET

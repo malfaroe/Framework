@@ -3,12 +3,13 @@ PIPELINE:
 1. Feature generator
 2. Feature encoding
 3. feature importance
-1. data_split
-2. baseline: baseline with linear algorithms
-3. baseline_ensemble: baseline with ensemble  algorithms
-4. model_tuning
-5. learning_curves
-5. validation
-6. Ensembles: Voting Classifier with the best models
-6. predictions: predict using test set and different configurations (average, single, etc)
-7.submit 
+4. data_split
+5. baseline unified: baseline with linear and ensemble algorithms
+6. model_tuning
+7. learning_curves
+8. validation
+9. Ensembles: Voting Classifier with the best models
+10. predictions: predict using test set and different configurations (average, single, etc)
+11. ensemble predict
+12.submit 
+13. ensemble submit

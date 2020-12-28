@@ -13,7 +13,7 @@ import glob #For importing files
 if __name__ == "__main__":
     target = config.TARGET
     #Read inputs
-    model_name = glob.glob("../models/bestModels" + "/model_decision_tree_entropy.bin")
+    model_name = glob.glob("../models/bestModels" + "/model_CatBoostClassifier.bin")
     X_test = pd.read_csv(config.TEST_FILE)
     X_train =  pd.read_csv(config.TRAINING_FILE)
     y_train = X_train.pop(config.TARGET)

@@ -66,7 +66,7 @@ if config.KAGGLE == True:
 
 
 else:
-    df[df[config.TARGET != -1]].to_csv("../input/train_final.csv",
+    df[df[config.TARGET] != -1].to_csv("../input/train_final.csv",
     index  = False)
 
 #Si se trata de una competencia de Kaggle genera train y test por separado

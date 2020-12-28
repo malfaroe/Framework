@@ -55,7 +55,7 @@ if __name__ == "__main__":
     print('Accuracy of baseline model with all features: %.2f' % (acc*100))
 
     #Selectfrom Model (select the 20 best features)
-    fs = SelectFromModel(RandomForestClassifier(n_estimators = 200), max_features = 25)
+    fs = SelectFromModel(RandomForestClassifier(n_estimators = 200), max_features = 51)
     #Fit
     fs.fit(X_t, y_t)
     #Transform train data
@@ -89,5 +89,6 @@ if __name__ == "__main__":
     print("Columnas finales X_train:", X_train.columns)
     X_train.to_csv("../input/new_train_final.csv",
     index  = False)
+    print("Nro final features:", X_train.shape)
 
     
