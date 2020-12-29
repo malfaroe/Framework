@@ -9,6 +9,8 @@ from sklearn.compose import make_column_transformer
 from itertools import combinations 
 import config 
 
+from utils import Rescaler
+
 
 
 df = pd.read_csv("../input/data_feat_gen.csv")
@@ -34,15 +36,10 @@ print("")
 print("Rejoined:")
 print(df_sel.head(2))
 
-#Rescaling for working with linear models and ensemble together
-#testing scaling data
-scaler = StandardScaler().fit(df_sel)
-XRescaled = scaler.transform(df_sel)
-df_rescaled = pd.DataFrame(XRescaled, columns = df_sel.columns)
-
 
 #Get back together with target
-df = pd.concat((df[config.TARGET], df_rescaled), axis = 1)
+df = pd.concat((df[config.TARGET], df_sel), axis = 1)
+
 print("")
 print("Processed shape:", df.shape)
 print("")
@@ -53,21 +50,34 @@ print("Final df shape:", df.shape)
 if config.KAGGLE == True:
     df.to_csv("../input/data_final.csv", index  = False)
     train = df[df[config.TARGET] != -1]
+    #Rescale train
+    #Rescaling for working with linear models and ensemble together
+    train = Rescaler(train, target = config.TARGET)
     train.to_csv("../input/train_final.csv",
     index  = False)
     print("Train shape", train.shape)
     test = df[df[config.TARGET] == -1]
+    #Rescale test
+    test = Rescaler(test, target = config.TARGET)
     print(test.head(2))
     print("Test shape", test.shape)
     new_test = test.copy()
     new_test.drop(columns = config.TARGET, axis = 1, inplace = True)
     new_test.to_csv("../input/test_final.csv",
     index  = False)
+    print("New_test")
+    print(new_test.head(2))
+
 
 
 else:
-    df[df[config.TARGET] != -1].to_csv("../input/train_final.csv",
+    train = df[df[config.TARGET] != -1]
+    #Rescale train
+    #Rescaling for working with linear models and ensemble together
+    train = Rescaler(train, target = config.TARGET)
+    train.to_csv("../input/train_final.csv",
     index  = False)
+    
 
 #Si se trata de una competencia de Kaggle genera train y test por separado
 #Si no, solamente genera el train procesado

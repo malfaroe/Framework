@@ -5,7 +5,6 @@ import pandas as pd
 import config
 from sklearn.model_selection import train_test_split 
 
-
 if __name__ == "__main__":
     df = pd.read_csv(config.TRAINING_FILE)
     target = config.TARGET
@@ -17,7 +16,12 @@ if __name__ == "__main__":
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size = 0.2, random_state = seed)
     X_train.to_csv("../input/X_train.csv", index  = False) 
     X_val.to_csv("../input/X_val.csv", index  = False)
-    y_train.to_csv("../input/y_train.csv", index  = False) 
-    y_val.to_csv("../input/y_val.csv", index  = False) 
+    y_train.to_csv("../input/y_train.csv", index  = False, header = True)
+    y_val.to_csv("../input/y_val.csv", index  = False, header = False) 
 
-                
+    print(X_train.shape, y_train.shape)
+    print(y_train.head(2))
+    print(X_train.head(2))
+
+
+    

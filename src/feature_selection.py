@@ -21,6 +21,8 @@ from sklearn.model_selection import cross_val_score
 
 from sklearn.feature_selection import VarianceThreshold
 
+import config
+
 
 
 class Selector:
@@ -29,34 +31,35 @@ class Selector:
         # self.df = df
         pass
         
-    def rescale(self, df, target):
-        #Rescale data if necessary
-        X2 = df.copy()
-        y2 = X2.pop(target)
-        scaler = StandardScaler().fit(X2)
-        XRescaled = scaler.transform(X2)
-        X_rescaled = pd.DataFrame(XRescaled, columns = X2.columns)
-        return pd.concat((y2, X_rescaled), axis = 1)
+    # def rescale(self, df, target):
+    #     #Rescale data if necessary
+    #     X2 = df.copy()
+    #     y2 = X2.pop(target)
+    #     scaler = StandardScaler().fit(X2)
+    #     XRescaled = scaler.transform(X2)
+    #     X_rescaled = pd.DataFrame(XRescaled, columns = X2.columns)
+    #     print("1. Data rescaling:")
+    #     print("Data has been rescaled")
+    #     return pd.concat((y2, X_rescaled), axis = 1)
 
     def variance_selector(self, df, target):
         #Rescale data if necessary
-        print("Variance Threshold feature selection:")
+        print("2.Variance Threshold feature selection:")
         print("")
         X2 = df.copy()
         y2 = X2.pop(target)
-        print("Initial feats:", X2.shape[1])
+        print("Initial features:", X2.shape[1])
         low = [col for col in X2.columns if X2[col].std() < 0.5]
-        print("Estos son antes de escale:", low)
-        scaler = StandardScaler().fit(X2)
-        XRescaled = scaler.transform(X2)
-        X_rescaled = pd.DataFrame(XRescaled, columns = X2.columns)
-        low = [col for col in X_rescaled.columns if X_rescaled[col].std() < 0.5]
-        print("Estos son despues de escale:", low)
+        # print("Estos son antes de escale:", low)
+        # scaler = StandardScaler().fit(X2)
+        # XRescaled = scaler.transform(X2)
+        # X_rescaled = pd.DataFrame(XRescaled, columns = X2.columns)
+        # low = [col for col in X2.columns if X[col].std() < 0.5]
         #Analysis of amount of variation and droping all features with low variance
         var_tresh = VarianceThreshold(threshold = 0.5)
-        var_tresh.fit_transform(X_rescaled)
+        var_tresh.fit_transform(X2)
         data_transformed = X2.loc[:, var_tresh.get_support()]
-        print("Selected feats:", data_transformed.columns)
+        #print("Selected feat:", data_transformed.columns)
         print("Removed features:", set(X2.columns) - set(data_transformed.columns))
         print("Final features:", data_transformed.shape[1])
         print("{} features with low variance removed".format(X2.shape[1] - data_transformed.shape[1]))
@@ -93,7 +96,8 @@ class Selector:
         return drop
 
     def corrX_new(self, df, cut) :
-        
+        print("")
+        print("3. Removing features with high pairwise correlation")
         # Get correlation matrix and upper triagle
         corr_mtx = df.corr().abs()
         avg_corr = corr_mtx.mean(axis = 1)
@@ -128,27 +132,46 @@ class Selector:
         dropcols_names = self.calcDrop(res)
         print("{} features removed".format(len(dropcols_names)))
         print("Features removed:", dropcols_names)
+        print("")
         print("Selected features:", df.shape[1] - len(dropcols_names))
         selected_cols = set(df.columns) - set(dropcols_names)
+        print("")
         print("Selected:", selected_cols)
         return df[selected_cols]
 
     def corr_target(self, df):
+        print("")
+        print("Remove features with low target correlation:")
         #Removes all feats with correlation under threshold
-        remove_features = [feat for feat in df.columns if df.corr().abs()[["Survived"]].loc[feat, :][0] < 0.05]
+        remove_features = [feat for feat in df.columns if df.corr().abs()[[config.TARGET]].loc[feat, :][0] < 0.05]
         selected_cols = set(df.columns) - set(remove_features)
-        df_test_2 = df[selected_cols]
-        selected_cols
+        print("Total features removed:", len(remove_features))
+        print("Final features selected:", len(selected_cols))
+
+        return df[selected_cols]
 
 
 if __name__ == "__main__":
-    df = pd.read_csv("../input/krt.csv")
-    print(df.head(2))
+    train =  pd.read_csv("../input/train_final.csv")
+    X_test =  pd.read_csv("../input/test_final.csv")
+    #print(df.head(2))
     slc = Selector()
-    df_r = slc.rescale(df, target = "Survived")
-    df_v = slc.variance_selector(df_r, target = "Survived")
+    # df_r = slc.rescale(df, target = "Survived")
+    df_v = slc.variance_selector(train, target = config.TARGET)
     df_corr_f = slc.corrX_new(df_v, cut = 0.65)
     df_corr_target = slc.corr_target(df_corr_f)
+
+    #Update train and test sets with selected features
+    train = train[df_corr_target.columns]
+    test_columns = train.loc[:, train.columns != config.TARGET].columns
+    print("test columns:", test_columns)
+    X_test = X_test[test_columns]
+    #Saving the updated train/test files
+    train.to_csv("../input/new_train_final.csv", index = False)
+    X_test.to_csv("../input/new_test_final.csv", index = False)
+    print(X_test.columns)
+
+
 
 
 

@@ -72,7 +72,8 @@ if __name__ == "__main__":
     seed = config.SEED
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
-    
+    print(X_train.shape, y_train.shape)
+    #print(y_train.head(2))
     scoring = config.SCORING
     models = model_dispatcher.MODELS
     print("UNIFIED BASELINE RESULTS:")
