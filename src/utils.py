@@ -25,10 +25,12 @@ def Rescaler(df, target):
 #Rescaling utility
     y = df.pop(target)
     X = df
-    scaler = StandardScaler().fit(df)
-    XRescaled = scaler.transform(df)
-    df_rescaled = pd.DataFrame(XRescaled, columns = df.columns)
+    test_ID = y.index
+    scaler = StandardScaler().fit(X)
+    XRescaled = scaler.transform(X)
+    df_rescaled = pd.DataFrame(XRescaled, columns = X.columns, index = test_ID)
     df = pd.concat((y, df_rescaled), axis = 1)
+    df.set_index(test_ID)
     print("Data has been rescaled...")
     return df
 

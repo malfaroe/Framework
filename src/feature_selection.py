@@ -95,11 +95,13 @@ class Selector:
             
         return drop
 
-    def corrX_new(self, df, cut) :
+    def corrX_new(self, df, target, cut) :
         print("")
         print("3. Removing features with high pairwise correlation")
         # Get correlation matrix and upper triagle
-        corr_mtx = df.corr().abs()
+        df2 = df.drop(target, axis = 1)
+
+        corr_mtx = df2.corr().abs()
         avg_corr = corr_mtx.mean(axis = 1)
         up = corr_mtx.where(np.triu(np.ones(corr_mtx.shape), k=1).astype(np.bool))
 
@@ -153,23 +155,30 @@ class Selector:
 
 if __name__ == "__main__":
     train =  pd.read_csv("../input/train_final.csv")
-    X_test =  pd.read_csv("../input/test_final.csv")
+
     #print(df.head(2))
     slc = Selector()
     # df_r = slc.rescale(df, target = "Survived")
     df_v = slc.variance_selector(train, target = config.TARGET)
-    df_corr_f = slc.corrX_new(df_v, cut = 0.65)
+    df_corr_f = slc.corrX_new(df_v, target = config.TARGET, cut = 0.65)
     df_corr_target = slc.corr_target(df_corr_f)
 
     #Update train and test sets with selected features
     train = train[df_corr_target.columns]
-    test_columns = train.loc[:, train.columns != config.TARGET].columns
-    print("test columns:", test_columns)
-    X_test = X_test[test_columns]
-    #Saving the updated train/test files
-    train.to_csv("../input/new_train_final.csv", index = False)
-    X_test.to_csv("../input/new_test_final.csv", index = False)
-    print(X_test.columns)
+
+    if config.KAGGLE:
+        X_test =  pd.read_csv("../input/test_final.csv")
+        test_columns = train.loc[:, train.columns != config.TARGET].columns
+        print("test columns:", test_columns)
+        X_test = X_test[test_columns]
+        print("Nans in test:", X_test.isnull().sum().sum())
+        X_test.to_csv("../input/new_test_final.csv", index = False)
+        train.to_csv("../input/new_train_final.csv", index = False)
+
+    else:
+
+        #Saving the updated 
+        train.to_csv("../input/new_train_final.csv", index = False)
 
 
 

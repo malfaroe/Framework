@@ -13,7 +13,7 @@ import glob #For importing files
 if __name__ == "__main__":
     target = config.TARGET
     #Read inputs
-    model_name = glob.glob("../models/bestModels" + "/model_CatBoostClassifier.bin")
+    model_name = glob.glob("../models/bestModels" + "/model_ExtraTrees.bin")
     X_test = pd.read_csv(config.TEST_FILE)
     X_train =  pd.read_csv(config.TRAINING_FILE)
     y_train = X_train.pop(config.TARGET)
@@ -28,6 +28,8 @@ if __name__ == "__main__":
     
     #Predict
     model = joblib.load(model_name[0])
+    print("Nans in test:", X_test.isnull().sum().sum())
+
     print("Model fitting...")
     model.fit(X_train, y_train)
     print("Predicting...")

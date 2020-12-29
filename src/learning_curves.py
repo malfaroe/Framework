@@ -48,7 +48,6 @@ def plot_learning_curve(estimator, title, X, y, ylim=None, cv=None,
 
 if __name__ == "__main__":
 
-    df = pd.read_csv(config.DF)
     target = config.TARGET
     num_folds = config.FOLDS
     kfold = StratifiedKFold(n_splits = num_folds)
