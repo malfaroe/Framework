@@ -28,3 +28,7 @@ if __name__ == "__main__":
     #Save prediction
     joblib.dump(y_pred, os.path.join("../input",
          f"../input/y_ensemble_pred"))
+    #Aviso
+    import beepy
+    from beepy import beep
+    beep(sound="ping")

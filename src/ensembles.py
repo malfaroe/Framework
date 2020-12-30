@@ -3,6 +3,8 @@ from sklearn import model_selection
 from sklearn.ensemble import BaggingClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
+from sklearn.model_selection import cross_val_score 
+from sklearn.model_selection import GridSearchCV 
 
 
 from sklearn.ensemble import AdaBoostClassifier
@@ -54,12 +56,15 @@ def VotingEnsemble(estimators, X_train, y_train):
     joblib.dump(ensemble, os.path.join(config.MODEL_OUTPUT,
          f"../models/ensembleModel/model_{name}.bin"))
     print("VotingClassifier Train Results:", results.mean(), results.std())
-    #Validation in y_val
-    
-    ensemble.fit(X_train, y_train)
-    print("VotingClassifier Validation Results:", ensemble.score(X_val, y_val))
-    
+    #Validation in y_val using crossvalidation
+    cv_results = model_selection.cross_val_score(estimator = ensemble,
+        X= X_val , y = y_val , scoring = scoring, cv = kfold)
+    # ensemble.fit(X_train, y_train)
+    print("VotingClassifier Validation Results using crossval:", cv_results.mean(),
+    cv_results.std())
 
+    
+    
 
 
 
@@ -83,5 +88,9 @@ if __name__ == "__main__":
     # bagging(X_train, y_train)
     # Boosting(X_train, y_train)
     VotingEnsemble(estimators, X_train, y_train)
+    #Aviso
+    import beepy
+    from beepy import beep
+    beep(sound="ping")
 
 

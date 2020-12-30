@@ -71,4 +71,8 @@ if __name__ == "__main__":
     models = model_dispatcher.MODELS
     print("MODEL TUNING RESULTS:")
     run_tuning(models, X_train, y_train)
+    #Aviso
+    import beepy
+    from beepy import beep
+    beep(sound="ping")
 
