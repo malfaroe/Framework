@@ -23,6 +23,14 @@ from sklearn.feature_selection import VarianceThreshold
 
 import config
 
+from patsy import dmatrices
+
+
+# Import specific libraries
+import statsmodels.api as sm
+from statsmodels.stats import diagnostic as diag
+from statsmodels.stats.outliers_influence import variance_inflation_factor
+
 
 
 class Selector:
@@ -141,6 +149,60 @@ class Selector:
         print("Selected:", selected_cols)
         return df[selected_cols]
 
+    
+    # def VIF(self, target_name, data, y): #for detecting multicollinearity
+    #     """toma dataset y devuelven un dataframe 
+    #     con los vifs ordenados"""
+        
+    #     # #Creamos el dataframe con data escalada que sirve de input para dmatrices
+    #     # scale = StandardScaler(with_std= False) #we scale data previuously using z = (x - u) / s. with:_std es falso porque no es 1
+    #     # df = pd.DataFrame(scale.fit_transform(data), columns = cols) #cols: todos los names of predictors
+    #     # df["SalePrice"] = y.values
+        
+    #     #Hacemos una regression usando el sistema dmatrices, de donde obtenemos x e y
+    #     cols = data.columns
+    #     features = "+".join(cols) #crea un string de todos los nombres con un + entre cada uno
+    #     y, X = dmatrices(target_name +  '~' + features, data = data, return_type= "dataframe")
+        
+    #     #Calculamos los VIF for each feature usando como input x,y
+    #     vif = pd.DataFrame()
+    #     vif["VIF Factor"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+    #     vif["Features"] = X.columns
+        
+    #     #Show
+    #     display(vif.sort_values("VIF Factor"))
+        
+    #     return vif
+
+    # def calc_vif(self, X):
+
+    #     # Calculating VIF
+    #     vif = pd.DataFrame()
+    #     vif["variables"] = X.columns
+    #     vif["VIF"] = [variance_inflation_factor(X.values, i) for i in range(X.shape[1])]
+
+    #     return(vif)
+
+    def calculate_vif_(self, X, thresh=5.0):
+        variables = list(range(X.shape[1]))
+        dropped = True
+        while dropped:
+            dropped = False
+            vif = [variance_inflation_factor(X.iloc[:, variables].values, ix)
+                for ix in range(X.iloc[:, variables].shape[1])]
+
+            maxloc = vif.index(max(vif))
+            if max(vif) > thresh:
+                print('dropping \'' + X.iloc[:, variables].columns[maxloc] +
+                    '\' at index: ' + str(maxloc))
+                del variables[maxloc]
+                dropped = True
+
+        print('Remaining variables:')
+        print(X.columns[variables])
+        return X.iloc[:, variables]
+
+
     def corr_target(self, df):
         print("")
         print("Remove features with low target correlation:")
@@ -152,7 +214,6 @@ class Selector:
 
         return df[selected_cols]
 
-
 if __name__ == "__main__":
     train =  pd.read_csv("../input/train_final.csv")
 
@@ -161,7 +222,11 @@ if __name__ == "__main__":
     # df_r = slc.rescale(df, target = "Survived")
     df_v = slc.variance_selector(train, target = config.TARGET)
     df_corr_f = slc.corrX_new(df_v, target = config.TARGET, cut = 0.65)
-    df_corr_target = slc.corr_target(df_corr_f)
+    #Aqui multicollinearity
+    print("4. Multicollinearity analysis")
+    df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
+    #Correlation with target
+    df_corr_target = slc.corr_target(df_multi)
 
     #Update train and test sets with selected features
     train = train[df_corr_target.columns]
