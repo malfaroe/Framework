@@ -10,6 +10,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import SVC
 from sklearn.ensemble import VotingClassifier
+from sklearn.metrics import roc_auc_score
 
 import os
 import config

@@ -69,19 +69,19 @@
 #KAGGLE = IF TRUE  INPUT_FILE IS TRAIN+TEST+TARGET
 
 ##USING KORTICAL PREPROCESSING
-# INPUT_FILE = "../input/titanic_total.csv"
-# KAGGLE = True
-# TRAINING_FILE   = "../input/new_train_final.csv"
-# HYPER_FILE = "../input/titanic.csv"
-# TEST_FILE = "../input/new_test_final.csv"
-# TEST_ID = "../input/test_ID.csv"
-# MODEL_OUTPUT = "../models/"
-# BEST_MODELS = "../models/bestModels"
-# DF = "../input/titanic.csv"
-# TARGET = "Survived"
-# FOLDS = 10
-# SEED = 42
-# SCORING = "accuracy"
+INPUT_FILE = "../input/titanic_total.csv"
+KAGGLE = True
+TRAINING_FILE   = "../input/new_train_final.csv"
+HYPER_FILE = "../input/titanic.csv"
+TEST_FILE = "../input/new_test_final.csv"
+TEST_ID = "../input/test_ID.csv"
+MODEL_OUTPUT = "../models/"
+BEST_MODELS = "../models/bestModels"
+DF = "../input/titanic.csv"
+TARGET = "Survived"
+FOLDS = 10
+SEED = 42
+SCORING = "accuracy"
 
 # ##DATASET TESTING STAGE
 
@@ -101,16 +101,31 @@
 # SCORING = "accuracy"
 
 #BREAST CANCER
-INPUT_FILE = "../input/breastCancer.csv"
-KAGGLE = False
-TRAINING_FILE   = "../input/new_train_final.csv"
-HYPER_FILE = "../input/titanic.csv"
-TEST_FILE = "../input/new_test_final.csv"
-TEST_ID = "../input/test_ID.csv"
-MODEL_OUTPUT = "../models/"
-BEST_MODELS = "../models/bestModels"
-DF = "../input/titanic.csv"
-TARGET = "Diagnosis"
-FOLDS = 10
-SEED = 42
-SCORING = "accuracy"
+# INPUT_FILE = "../input/breastCancer.csv"
+# KAGGLE = False
+# TRAINING_FILE   = "../input/new_train_final.csv"
+# HYPER_FILE = "../input/titanic.csv"
+# TEST_FILE = "../input/new_test_final.csv"
+# TEST_ID = "../input/test_ID.csv"
+# MODEL_OUTPUT = "../models/"
+# BEST_MODELS = "../models/bestModels"
+# DF = "../input/titanic.csv"
+# TARGET = "Diagnosis"
+# FOLDS = 10
+# SEED = 42
+# SCORING = "accuracy"
+
+#ADULT DATASET
+# INPUT_FILE = "../input/adult.csv"
+# KAGGLE = False
+# TRAINING_FILE   = "../input/new_train_final.csv"
+# HYPER_FILE = "../input/titanic.csv"
+# TEST_FILE = "../input/new_test_final.csv"
+# TEST_ID = "../input/test_ID.csv"
+# MODEL_OUTPUT = "../models/"
+# BEST_MODELS = "../models/bestModels"
+# DF = "../input/titanic.csv"
+# TARGET = "target"
+# FOLDS = 10
+# SEED = 42
+# SCORING = "roc_auc"
