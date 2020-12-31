@@ -30,13 +30,16 @@ import glob #For importing files
 
 
 def val_scores(all_files, X_val, y_val):
-    scores =pd.DataFrame(columns = ["Model", "Accuracy", "F1_Score"])
+    scores =pd.DataFrame(columns = ["Model", "Accuracy", "F1_Score", "Std_Error"])
   
     for filename in all_files:
         model = joblib.load(filename)
-        result = model.score(X_val, y_val)
-        scores = scores.append({"Model":filename, "Accuracy":result,
-                               "F1_Score":metrics.f1_score(model.predict(X_val), y_val)},
+        kfold = StratifiedKFold(n_splits= config.FOLDS)
+        cv_results = cross_val_score(estimator = model,
+        X= X_val , y = y_val.values.ravel() , scoring = scoring, cv = kfold)
+        scores = scores.append({"Model":filename, "Accuracy": cv_results.mean(),
+                               "F1_Score":metrics.f1_score(model.predict(X_val), y_val),
+                               "Std_Error":cv_results.std()},
                                ignore_index=True )
     print(scores.sort_values(by = "Accuracy", ascending = False))
     return scores

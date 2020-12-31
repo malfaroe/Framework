@@ -184,23 +184,23 @@ class Selector:
     #     return(vif)
 
     def calculate_vif_(self, X, thresh=5.0):
-        variables = list(range(X.shape[1]))
-        dropped = True
+        cols = X.columns
+        variables = np.arange(X.shape[1])
+        dropped=True
         while dropped:
-            dropped = False
-            vif = [variance_inflation_factor(X.iloc[:, variables].values, ix)
-                for ix in range(X.iloc[:, variables].shape[1])]
+            dropped=False
+            c = X[cols[variables]].values
+            vif = [variance_inflation_factor(c, ix) for ix in np.arange(c.shape[1])]
 
             maxloc = vif.index(max(vif))
             if max(vif) > thresh:
-                print('dropping \'' + X.iloc[:, variables].columns[maxloc] +
-                    '\' at index: ' + str(maxloc))
-                del variables[maxloc]
-                dropped = True
+                print('dropping \'' + X[cols[variables]].columns[maxloc] + '\' at index: ' + str(maxloc))
+                variables = np.delete(variables, maxloc)
+                dropped=True
 
         print('Remaining variables:')
         print(X.columns[variables])
-        return X.iloc[:, variables]
+        return X[cols[variables]]
 
 
     def corr_target(self, df):
@@ -223,10 +223,10 @@ if __name__ == "__main__":
     df_v = slc.variance_selector(train, target = config.TARGET)
     df_corr_f = slc.corrX_new(df_v, target = config.TARGET, cut = 0.65)
     #Aqui multicollinearity
-    print("4. Multicollinearity analysis")
-    df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
+    # print("4. Multicollinearity analysis")
+    # df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
     #Correlation with target
-    df_corr_target = slc.corr_target(df_multi)
+    df_corr_target = slc.corr_target(df_corr_f)
 
     #Update train and test sets with selected features
     train = train[df_corr_target.columns]

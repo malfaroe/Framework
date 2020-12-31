@@ -29,7 +29,7 @@ if __name__ == "__main__":
     #Predict
     model = joblib.load(model_name[0])
     print("Model fitting...")
-    model.fit(X_train, y_train)
+#     model.fit(X_train, y_train)
     print("Predicting...")
     y_pred = model.predict(X_test)
     print("Prediction done.")

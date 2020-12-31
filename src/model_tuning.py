@@ -42,7 +42,7 @@ def run_tuning(models, X, y):
         #Save the model
         joblib.dump(gs_mod, os.path.join(config.MODEL_OUTPUT,
          f"../models/model_{model}.bin"))
-        report  = report.append({"Algorithm":model, "Model_detail": gs_mod,
+        report  = report.append({"Algorithm":model, "Model_detail": gs_mod.best_estimator_,
             "Best Score":gs_mod.best_score_, 
             "Std_test_score": gs_mod.cv_results_["std_test_score"].mean()},
             ignore_index = True)

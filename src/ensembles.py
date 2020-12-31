@@ -47,24 +47,35 @@ def Boosting(X_train, y_train):
 def VotingEnsemble(estimators, X_train, y_train):
     print("Training...")
     kfold = model_selection.StratifiedKFold(n_splits = config.FOLDS)
+    v_param_grid = {'voting':['soft',
+                          'hard']} # tuning voting parameter
     ensemble = VotingClassifier(estimators)
+    gsV = GridSearchCV(ensemble, 
+                   param_grid = 
+                   v_param_grid, 
+                   cv = kfold, 
+                   scoring = config.SCORING,
+                   n_jobs = -1, 
+                   verbose = 0)
+    gsV.fit(X_train, y_train)
+    v_best = gsV.best_estimator_
+
     name = "VotingEnsemble"
-    results = model_selection.cross_val_score(ensemble, X_train,
-    y_train, cv = kfold)
     
     # #save the votingclassifier
-    joblib.dump(ensemble, os.path.join(config.MODEL_OUTPUT,
+    joblib.dump(v_best, os.path.join(config.MODEL_OUTPUT,
          f"../models/ensembleModel/model_{name}.bin"))
-    print("VotingClassifier Train Results:", results.mean(), results.std())
+    print("VotingClassifier CV Results:", gsV.best_score_, 
+    gsV.cv_results_["std_test_score"].mean().std())
     #Validation in y_val using crossvalidation
-    cv_results = model_selection.cross_val_score(estimator = ensemble,
+
+    cv_results = model_selection.cross_val_score(estimator = v_best,
         X= X_val , y = y_val , scoring = scoring, cv = kfold)
     # ensemble.fit(X_train, y_train)
     print("VotingClassifier Validation Results using crossval:", cv_results.mean(),
     cv_results.std())
 
-    
-    
+       
 
 
 

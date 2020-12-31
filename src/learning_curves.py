@@ -60,5 +60,5 @@ if __name__ == "__main__":
 
     for filename in all_files:
         model = joblib.load(filename)
-        g = plot_learning_curve(model.best_estimator_,filename,X_train,y_train,cv=kfold)
+        g = plot_learning_curve(model,filename,X_train,y_train,cv=kfold)
     #
