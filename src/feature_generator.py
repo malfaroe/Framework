@@ -24,7 +24,7 @@ print("Initial features:", df_sel.shape[1])
 print("Cat feats:", cat_feats)
 print("Num feats:", num_feats)
 
-
+#########
 #Categorical processing
 # Crear combinaciones de categoricals
 pairs = list(combinations(cat_feats, 2))
@@ -55,6 +55,7 @@ print("Total num features after 2nd order poly creation:", df_poly.shape[1])
 #Get back together with target
 df = pd.concat((df[config.TARGET], df_sel, df_poly), axis = 1)
 
+#######
 
 #Save the data with new features
 df.to_csv("../input/data_feat_gen.csv", index  = False)

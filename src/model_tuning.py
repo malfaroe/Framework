@@ -67,8 +67,10 @@ if __name__ == "__main__":
     seed = config.SEED
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
+
     scoring = config.SCORING
     models = model_dispatcher.MODELS
+    print("Shapes:", X_train.shape, y_train.shape)
     print("MODEL TUNING RESULTS:")
     run_tuning(models, X_train, y_train)
     #Aviso

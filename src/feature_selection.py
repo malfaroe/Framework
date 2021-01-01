@@ -52,7 +52,7 @@ class Selector:
 
     def variance_selector(self, df, target):
         #Rescale data if necessary
-        print("2.Variance Threshold feature selection:")
+        print("1.Variance Threshold feature selection:")
         print("")
         X2 = df.copy()
         y2 = X2.pop(target)
@@ -74,6 +74,25 @@ class Selector:
         #Rejoin
         df = pd.concat((y2, data_transformed), axis = 1)
         return df
+
+
+    def single_value_dominate(self, df, target):
+        print("2.Removing columns with single value dominating > 95%:")
+        print("")
+        X2 = df.copy()
+        y2 = X2.pop(target)
+        remove_cols = []
+        for col in X2.columns:
+            count= 0
+            count = sum([+1 for i in X2[col].values if i == X2[col].mode()[0]])
+            if count/X2[col].shape[0] >= 0.95:
+                remove_cols.append(col)
+        selected_cols = set(df.columns) - set(remove_cols)
+        print("Removed cols:", len(remove_cols))
+        print("Total selected cols:", len(selected_cols))
+        df = df[selected_cols]
+        return df
+
 
     def calcDrop(self, res):
         # All variables with correlation > cutoff
@@ -217,11 +236,13 @@ class Selector:
 if __name__ == "__main__":
     train =  pd.read_csv("../input/train_final.csv")
 
-    #print(df.head(2))
+
+    ##########
     slc = Selector()
     # df_r = slc.rescale(df, target = "Survived")
     df_v = slc.variance_selector(train, target = config.TARGET)
-    df_corr_f = slc.corrX_new(df_v, target = config.TARGET, cut = 0.65)
+    df_svd =slc.single_value_dominate(df_v, target = config.TARGET )
+    df_corr_f = slc.corrX_new(df_svd, target = config.TARGET, cut = 0.65)
     #Aqui multicollinearity
     # print("4. Multicollinearity analysis")
     # df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
@@ -230,6 +251,8 @@ if __name__ == "__main__":
 
     #Update train and test sets with selected features
     train = train[df_corr_target.columns]
+
+    #############
 
     if config.KAGGLE:
         X_test =  pd.read_csv("../input/test_final.csv")
