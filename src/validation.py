@@ -54,8 +54,8 @@ if __name__ == "__main__":
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
     X_val =  pd.read_csv("../input/X_val.csv")
-    # y_val =  pd.read_csv("../input/y_val.csv").values.ravel()
-    y_val =  pd.read_csv("../input/y_val.csv")
+    y_val =  pd.read_csv("../input/y_val.csv").values.ravel()
+    # y_val =  pd.read_csv("../input/y_val.csv")
     print("Train shapes:", X_train.shape, y_train.shape)
     print("Val shapes:", X_val.shape, y_val.shape)
 

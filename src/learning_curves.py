@@ -7,6 +7,8 @@ import warnings
 import pandas as pd 
 import numpy as np
 from sklearn.metrics import roc_auc_score
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler, RobustScaler
 
 import config
 import os
@@ -60,5 +62,7 @@ if __name__ == "__main__":
 
     for filename in all_files:
         model = joblib.load(filename)
+        #Adding pipeline for Scaling
+        model = make_pipeline(StandardScaler(), model)
         g = plot_learning_curve(model,filename,X_train,y_train,cv=kfold)
     #

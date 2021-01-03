@@ -1,5 +1,7 @@
 import pandas as pd 
 import numpy as np 
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler, RobustScaler
 
 import os
 import config
@@ -18,12 +20,15 @@ if __name__ == "__main__":
     y_train = X_train.pop(config.TARGET)
     
     #Predict
+    #Predict
     model = joblib.load(model_name[0])
-#     print("Model fitting...")
-#     model.fit(X_train, y_train)
+    print("Model fitting...")
+    pipe = make_pipeline(StandardScaler(), model)
+    pipe.fit(X_train, y_train)
     print("Predicting...")
-    y_pred = model.predict(X_test)
-    print("Ensemble prediction done.")
+    y_pred = pipe.predict(X_test)
+    print("Prediction done.")
+
 
     #Save prediction
     joblib.dump(y_pred, os.path.join("../input",

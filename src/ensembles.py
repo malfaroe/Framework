@@ -5,7 +5,10 @@ from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import accuracy_score
 from sklearn.model_selection import cross_val_score 
 from sklearn.model_selection import GridSearchCV 
+from sklearn.model_selection import RandomizedSearchCV, RepeatedStratifiedKFold
 
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler, RobustScaler
 
 from sklearn.ensemble import AdaBoostClassifier
 
@@ -43,39 +46,65 @@ def Boosting(X_train, y_train):
     X_train, y_train, cv=kfold)
     print("Boosting Results:", results.mean())
 
+#VOTING ENSEMBLE OLD VERSION
+# def VotingEnsemble(estimators, X_train, y_train):
+#     print("Training...")
+#     kfold = model_selection.StratifiedKFold(n_splits = config.FOLDS)
+#     v_param_grid = {'voting':['soft',
+#                           'hard']} # tuning voting parameter
+#     ensemble = VotingClassifier(estimators)
+#     gsV = GridSearchCV(ensemble, 
+#                    param_grid = 
+#                    v_param_grid, 
+#                    cv = kfold, 
+#                    scoring = config.SCORING,
+#                    n_jobs = -1, 
+#                    verbose = 0)
+#     gsV.fit(X_train, y_train)
+#     v_best = gsV.best_estimator_
 
+#     name = "VotingEnsemble"
+    
+#     # #save the votingclassifier
+#     joblib.dump(v_best, os.path.join(config.MODEL_OUTPUT,
+#          f"../models/ensembleModel/model_{name}.bin"))
+#     print("VotingClassifier CV Results:", gsV.best_score_, 
+#     gsV.cv_results_["std_test_score"].mean().std())
+#     #Validation in y_val using crossvalidation
+
+#     cv_results = model_selection.cross_val_score(estimator = v_best,
+#         X= X_val , y = y_val , scoring = scoring, cv = kfold)
+#     # ensemble.fit(X_train, y_train)
+#     print("VotingClassifier Validation Results using crossval:", cv_results.mean(),
+#     cv_results.std())
+
+#NEW VERSION
 def VotingEnsemble(estimators, X_train, y_train):
     print("Training...")
-    kfold = model_selection.StratifiedKFold(n_splits = config.FOLDS)
+    kfold = RepeatedStratifiedKFold(n_splits=config.FOLDS,
+     n_repeats=10, random_state=42)
     v_param_grid = {'voting':['soft',
                           'hard']} # tuning voting parameter
     ensemble = VotingClassifier(estimators)
-    gsV = GridSearchCV(ensemble, 
-                   param_grid = 
-                   v_param_grid, 
-                   cv = kfold, 
-                   scoring = config.SCORING,
-                   n_jobs = -1, 
-                   verbose = 0)
-    gsV.fit(X_train, y_train)
-    v_best = gsV.best_estimator_
-
+    rsV = RandomizedSearchCV(ensemble, v_param_grid,
+     cv=kfold, random_state= 42, n_jobs=-1, verbose=0 )
+    pipe = make_pipeline(StandardScaler(),rsV)
+    pipe.fit(X_train, y_train)
+    v_best = rsV.best_estimator_
     name = "VotingEnsemble"
     
     # #save the votingclassifier
     joblib.dump(v_best, os.path.join(config.MODEL_OUTPUT,
          f"../models/ensembleModel/model_{name}.bin"))
-    print("VotingClassifier CV Results:", gsV.best_score_, 
-    gsV.cv_results_["std_test_score"].mean().std())
+    print("VotingClassifier CV Results:", accuracy_score(y_train, pipe.predict(X_train)), 
+    rsV.cv_results_["std_test_score"].mean().std())
     #Validation in y_val using crossvalidation
 
-    cv_results = model_selection.cross_val_score(estimator = v_best,
+    cv_results = model_selection.cross_val_score(estimator = make_pipeline(StandardScaler(), v_best),
         X= X_val , y = y_val , scoring = scoring, cv = kfold)
     # ensemble.fit(X_train, y_train)
     print("VotingClassifier Validation Results using crossval:", cv_results.mean(),
-    cv_results.std())
-
-       
+    cv_results.std())     
 
 
 

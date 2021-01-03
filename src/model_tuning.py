@@ -39,6 +39,7 @@ def run_tuning(models, X, y):
                         n_jobs = -1, verbose = 0)
         gs_mod.fit(X, y)
         gs_best = gs_mod.best_estimator_
+
         #Save the model
         joblib.dump(gs_mod, os.path.join(config.MODEL_OUTPUT,
          f"../models/model_{model}.bin"))
