@@ -20,7 +20,7 @@ MODELS =    {
     "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
-     "GradientBoosting":GradientBoostingClassifier(random_state = 42),
+    #  "GradientBoosting":GradientBoostingClassifier(random_state = 42),
     "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
     #  'SVM': SVC(probability=True),
     'LinearDiscriminant': LinearDiscriminantAnalysis(),
