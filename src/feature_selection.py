@@ -238,19 +238,19 @@ if __name__ == "__main__":
 
 
     ##########
-    slc = Selector()
-    # df_r = slc.rescale(df, target = "Survived")
-    df_v = slc.variance_selector(train, target = config.TARGET)
-    df_svd =slc.single_value_dominate(df_v, target = config.TARGET )
-    df_corr_f = slc.corrX_new(df_svd, target = config.TARGET, cut = 0.65)
-    #Aqui multicollinearity
-    # print("4. Multicollinearity analysis")
-    # df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
-    #Correlation with target
-    df_corr_target = slc.corr_target(df_corr_f)
+    # slc = Selector()
+    # # df_r = slc.rescale(df, target = "Survived")
+    # df_v = slc.variance_selector(train, target = config.TARGET)
+    # df_svd =slc.single_value_dominate(df_v, target = config.TARGET )
+    # df_corr_f = slc.corrX_new(df_svd, target = config.TARGET, cut = 0.65)
+    # #Aqui multicollinearity
+    # # print("4. Multicollinearity analysis")
+    # # df_multi = slc.calculate_vif_(df_corr_f, thresh=5.0)
+    # #Correlation with target
+    # df_corr_target = slc.corr_target(df_corr_f)
 
-    #Update train and test sets with selected features
-    train = train[df_corr_target.columns]
+    # #Update train and test sets with selected features
+    # train = train[df_corr_target.columns]
 
     #############
 

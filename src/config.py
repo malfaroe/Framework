@@ -131,9 +131,9 @@
 # SEED = 42
 # SCORING = "accuracy"
 
-#BREAST CANCER
-INPUT_FILE = "../input/breastCancer.csv"
-KAGGLE = False
+#LOAN COMPETITION
+INPUT_FILE = "../input/loan_comp.csv"
+KAGGLE = True
 TRAINING_FILE   = "../input/new_train_final.csv"
 HYPER_FILE = "../input/titanic.csv"
 TEST_FILE = "../input/new_test_final.csv"
@@ -141,10 +141,26 @@ TEST_ID = "../input/test_ID.csv"
 MODEL_OUTPUT = "../models/"
 BEST_MODELS = "../models/bestModels"
 DF = "../input/titanic.csv"
-TARGET = "Diagnosis"
+TARGET = "Loan_Status"
 FOLDS = 10
 SEED = 42
 SCORING = "accuracy"
+
+
+#BREAST CANCER
+# INPUT_FILE = "../input/breastCancer.csv"
+# KAGGLE = False
+# TRAINING_FILE   = "../input/new_train_final.csv"
+# HYPER_FILE = "../input/titanic.csv"
+# TEST_FILE = "../input/new_test_final.csv"
+# TEST_ID = "../input/test_ID.csv"
+# MODEL_OUTPUT = "../models/"
+# BEST_MODELS = "../models/bestModels"
+# DF = "../input/titanic.csv"
+# TARGET = "Diagnosis"
+# FOLDS = 10
+# SEED = 42
+# SCORING = "accuracy"
 
 #ADULT DATASET
 # INPUT_FILE = "../input/adult.csv"
