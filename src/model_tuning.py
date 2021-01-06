@@ -50,7 +50,7 @@ def run_tuning(models, X, y):
     print(report[["Algorithm", "Best Score", "Std_test_score"]].sort_values(by = "Best Score", ascending = False))
     
     #Save the best 3 algorithms
-    best = report.sort_values(by = "Best Score", ascending = False).head(4)
+    best = report.sort_values(by = "Best Score", ascending = False).head(9)
     # best_models = best["Model_detail"].values
     for model, name in zip(best["Model_detail"], best["Algorithm"]):
         joblib.dump(model, os.path.join(config.BEST_MODELS,

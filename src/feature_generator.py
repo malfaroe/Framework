@@ -25,7 +25,7 @@ print("Cat feats:", cat_feats)
 print("Num feats:", num_feats)
 
 #########
-#Categorical processing
+# # Categorical processing
 # # Crear combinaciones de categoricals
 # pairs = list(combinations(cat_feats, 2))
 # for pair in pairs:

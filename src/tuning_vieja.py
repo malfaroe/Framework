@@ -29,8 +29,10 @@ from sklearn import tree
 from sklearn.ensemble import RandomForestClassifier 
 from sklearn.ensemble import ExtraTreesClassifier,GradientBoostingClassifier
 from sklearn.ensemble import AdaBoostClassifier
+from lightgbm import LGBMClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
+from xgboost import XGBClassifier
 
 def ml_model(models, X_train, y_train):
     cv = RepeatedStratifiedKFold(n_splits=config.FOLDS, n_repeats=10, random_state=42)
@@ -73,7 +75,7 @@ def ml_model(models, X_train, y_train):
         # print("Accuracy for test: " , accuracy_score(y_test, pipe.predict(X_test)))
      
      #Save the best 3 algorithms
-    best = report.sort_values(by = "Val_Error", ascending = True).head(7)
+    best = report.sort_values(by = "Val_Error", ascending = True).head(12)
     # best_models = best["Model_detail"].values
     for model, name in zip(best["Model_detail"], best["Algorithm"]):
         joblib.dump(model, os.path.join(config.BEST_MODELS,

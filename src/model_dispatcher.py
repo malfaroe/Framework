@@ -11,22 +11,27 @@ from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 from catboost import CatBoostClassifier
+from lightgbm import LGBMClassifier
+import xgboost 
+# from xgboost import XGBClassifier
 
 import numpy as np
 
 
 MODELS =    {
-    "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
-    "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
+    # "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
+    # "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
     "RandomForest": RandomForestClassifier(random_state = 42),
     "ExtraTrees": ExtraTreesClassifier(random_state = 42),
-    # #  "GradientBoosting":GradientBoostingClassifier(random_state = 42),
+    # "GradientBoosting":GradientBoostingClassifier(random_state = 42),
     "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
-    # #  'SVM': SVC(probability=True),
+    'SVM': SVC(probability=True),
     'LinearDiscriminant': LinearDiscriminantAnalysis(),
-    "KNearest_Neighbour": KNeighborsClassifier(),
-    'LogisticRegression': LogisticRegression(max_iter = 40000)
-
+    # "KNearest_Neighbour": KNeighborsClassifier(),
+    'LogisticRegression': LogisticRegression(max_iter = 40000),
+    "AdaBoost":AdaBoostClassifier(DecisionTreeClassifier(),
+    random_state = 42),
+    "LGBM": LGBMClassifier(random_state = 42)
     
 } 
 
@@ -106,6 +111,28 @@ LR_PARAMS = {"penalty" : ["l2"],
 LDA_PARAMS = {"solver" : ["svd"],
               "tol" : [0.0001,0.0002,0.0003]}
 
+LGBM_PARAMS = {
+    'learning_rate': [0.005, 0.01],
+    'n_estimators': [8,16,24],
+    'num_leaves': [6,8,12,16], # large num_leaves helps improve accuracy but might lead to over-fitting
+    'boosting_type' : ['gbdt', 'dart'], # for better accuracy -> try dart
+    'objective' : ['binary'],
+    'max_bin':[255, 510], # large max_bin helps improve accuracy but might slow down training progress
+    'random_state' : [500],
+    'colsample_bytree' : [0.64, 0.65, 0.66],
+    'subsample' : [0.7,0.75],
+    'reg_alpha' : [1,1.2],
+    'reg_lambda' : [1,1.2,1.4],
+               }
+
+XGB_PARAMS = {
+        'min_child_weight': [1, 5, 10],
+        'gamma': [0.5, 1, 1.5, 2, 5],
+        'subsample': [0.6, 0.8, 1.0],
+        'colsample_bytree': [0.6, 0.8, 1.0],
+        'max_depth': [3, 4, 5]
+        }
+
 
 
 model_param =   {
@@ -118,7 +145,10 @@ model_param =   {
     "SVM": SVM_PARAMS,
     "KNearest_Neighbour": KNN_PARAMS,
     'LogisticRegression': LR_PARAMS,
-    "LinearDiscriminant": LDA_PARAMS
+    "LinearDiscriminant": LDA_PARAMS,
+    "AdaBoost": ADA_PARAMS,
+    "LGBM": LGBM_PARAMS,
+  
 
    
 } 
