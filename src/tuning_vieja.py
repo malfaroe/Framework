@@ -35,7 +35,7 @@ from sklearn.metrics import accuracy_score
 def ml_model(models, X_train, y_train):
     cv = RepeatedStratifiedKFold(n_splits=config.FOLDS, n_repeats=10, random_state=42)
     dict = {"Algorithm":[], "Model_detail":[], "Best Score":[], 
-    "Std_test_score": [], "Validation Score":[]}
+    "Std_test_score": [], "Validation Score":[], "Val_Error":[]}
     report = pd.DataFrame(dict)
     for model in models:
         print(model)
@@ -62,9 +62,10 @@ def ml_model(models, X_train, y_train):
         report  = report.append({"Algorithm":model, "Model_detail": gs_best,
             "Best Score":accuracy_score(y_train, pipe.predict(X_train)), 
             "Std_test_score": random_search.cv_results_["std_test_score"].mean(),
-            "Validation Score":cv_results.mean()},
+            "Validation Score":cv_results.mean(), "Val_Error":cv_results.std()},
             ignore_index = True)
-    print(report[["Algorithm", "Best Score", "Std_test_score", "Validation Score"]].sort_values(by = "Best Score", ascending = False))
+    print(report[["Algorithm", "Best Score", "Std_test_score", "Validation Score",
+    "Val_Error"]].sort_values(by = "Val_Error", ascending = True))
         # y_pred_proba = pipe.predict_proba(X_test)[:,1]
         # fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
         # print("ROC Score : ",roc_auc_score(y_test, y_pred_proba))
@@ -72,7 +73,7 @@ def ml_model(models, X_train, y_train):
         # print("Accuracy for test: " , accuracy_score(y_test, pipe.predict(X_test)))
      
      #Save the best 3 algorithms
-    best = report.sort_values(by = "Best Score", ascending = False).head(7)
+    best = report.sort_values(by = "Val_Error", ascending = True).head(7)
     # best_models = best["Model_detail"].values
     for model, name in zip(best["Model_detail"], best["Algorithm"]):
         joblib.dump(model, os.path.join(config.BEST_MODELS,

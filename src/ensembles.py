@@ -23,6 +23,7 @@ import glob
 import joblib
 import model_dispatcher
 import pandas as pd
+import numpy as np
 
 
 def bagging(X_train, y_train):
@@ -97,7 +98,7 @@ def VotingEnsemble(estimators, X_train, y_train):
     joblib.dump(v_best, os.path.join(config.MODEL_OUTPUT,
          f"../models/ensembleModel/model_{name}.bin"))
     print("VotingClassifier CV Results:", accuracy_score(y_train, pipe.predict(X_train)), 
-    rsV.cv_results_["std_test_score"].mean().std())
+    np.round(rsV.cv_results_["std_test_score"].mean().std(), 8))
     #Validation in y_val using crossvalidation
 
     cv_results = model_selection.cross_val_score(estimator = make_pipeline(StandardScaler(), v_best),
