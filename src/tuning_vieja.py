@@ -32,7 +32,7 @@ from sklearn.ensemble import AdaBoostClassifier
 from lightgbm import LGBMClassifier
 from sklearn.metrics import roc_auc_score
 from sklearn.metrics import accuracy_score
-from xgboost import XGBClassifier
+
 
 def ml_model(models, X_train, y_train):
     cv = RepeatedStratifiedKFold(n_splits=config.FOLDS, n_repeats=10, random_state=42)

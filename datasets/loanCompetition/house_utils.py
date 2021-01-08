@@ -69,8 +69,8 @@ from sklearn.kernel_ridge import KernelRidge
 from sklearn.linear_model import LinearRegression, OrthogonalMatchingPursuit, Lasso, LassoLarsIC, ElasticNet, ElasticNetCV
 from sklearn.linear_model import SGDRegressor, PassiveAggressiveRegressor, HuberRegressor, BayesianRidge
 from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor, BaggingRegressor, ExtraTreesRegressor
-import xgboost as xgb
-from xgboost import XGBRegressor, plot_importance
+# import xgboost as xgb
+# from xgboost import XGBRegressor, plot_importance
 import lightgbm as lgb
 
 from patsy import dmatrices

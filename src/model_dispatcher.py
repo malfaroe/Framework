@@ -21,17 +21,17 @@ import numpy as np
 MODELS =    {
     # "decision_tree_gini":tree.DecisionTreeClassifier(criterion= "gini", random_state = 42),
     # "decision_tree_entropy": tree.DecisionTreeClassifier(criterion= "entropy",  random_state = 42),
-    "RandomForest": RandomForestClassifier(random_state = 42),
-    "ExtraTrees": ExtraTreesClassifier(random_state = 42),
+    # "RandomForest": RandomForestClassifier(random_state = 42),
+    # "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     # "GradientBoosting":GradientBoostingClassifier(random_state = 42),
     "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
-    'SVM': SVC(probability=True),
-    'LinearDiscriminant': LinearDiscriminantAnalysis(),
+    # 'SVM': SVC(probability=True),
+    # 'LinearDiscriminant': LinearDiscriminantAnalysis(),
     # "KNearest_Neighbour": KNeighborsClassifier(),
-    'LogisticRegression': LogisticRegression(max_iter = 40000),
-    "AdaBoost":AdaBoostClassifier(DecisionTreeClassifier(),
-    random_state = 42),
-    "LGBM": LGBMClassifier(random_state = 42)
+    # 'LogisticRegression': LogisticRegression(max_iter = 40000),
+    # "AdaBoost":AdaBoostClassifier(DecisionTreeClassifier(),
+    # random_state = 42),
+    # "LGBM": LGBMClassifier(random_state = 42)
     
 } 
 
@@ -45,7 +45,7 @@ LINEAR_MODELS = {'LogisticRegression': LogisticRegression(max_iter = 1000000),
 
 
 
-#Parameters for hyperparameter optimization process
+#Parameters for hyperparameter optimization 
 
 DTG_PARAMS = {"criterion": ["gini"],"max_depth":[5,10,15,20,25,30],
             "min_samples_split": range(2,50),
@@ -56,13 +56,13 @@ DTE_PARAMS = {"criterion": ["entropy"],"max_depth":[5,10,15,20,25,30],
             "min_samples_leaf":range(1,50)}
 
 
-RF_PARAMS = {"max_depth": [None], "max_features": [1,3,5,7],
+RF_PARAMS = {"max_depth": [None], "max_features": [0.05,0.15, 0.25, 0.35],
                 "min_samples_split": np.arange(2,30),
                 "min_samples_leaf": np.arange(1,50),
                 "bootstrap": [False],
                 "n_estimators": [100,300, 1000],
                 "criterion": ["gini"]}
-XT_PARAMS = {"max_depth": [None], "max_features": [1,3, 5],
+XT_PARAMS = {"max_depth": [None], "max_features": [0.05,0.15, 0.25, 0.35],
                 "min_samples_split": [2,3,10],
                 "min_samples_leaf": [1,3,10],
                 "bootstrap": [False],
