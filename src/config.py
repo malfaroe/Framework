@@ -144,7 +144,7 @@ DF = "../input/titanic.csv"
 TARGET = "Loan_Status"
 FOLDS = 10
 SEED = 42
-SCORING = "accuracy"
+SCORING = "roc_auc"
 
 
 #BREAST CANCER
