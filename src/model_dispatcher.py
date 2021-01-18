@@ -24,7 +24,7 @@ MODELS =    {
     "RandomForest": RandomForestClassifier(random_state = 42),
     # # "ExtraTrees": ExtraTreesClassifier(random_state = 42),
     # # "GradientBoosting":GradientBoostingClassifier(random_state = 42),
-    "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
+    # "CatBoostClassifier": CatBoostClassifier(random_state = 42, verbose = 0),
     # 'SVM': SVC(probability=True),
     # 'LinearDiscriminant': LinearDiscriminantAnalysis(),
     # "KNearest_Neighbour": KNeighborsClassifier(),

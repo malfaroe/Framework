@@ -30,18 +30,18 @@ import glob #For importing files
 
 
 def val_scores(all_files, X_val, y_val):
-    scores =pd.DataFrame(columns = ["Model", "Accuracy", "F1_Score", "Std_Error"])
+    scores =pd.DataFrame(columns = ["Model", "Score", "F1_Score", "Std_Error"])
   
     for filename in all_files:
         model = joblib.load(filename)
         kfold = StratifiedKFold(n_splits= config.FOLDS)
         cv_results = cross_val_score(estimator = model,
-        X= X_val , y = y_val.values.ravel() , scoring = scoring, cv = kfold)
-        scores = scores.append({"Model":filename, "Accuracy": cv_results.mean(),
+        X= X_val , y = y_val , scoring = scoring, cv = kfold)
+        scores = scores.append({"Model":filename, "Score": cv_results.mean(),
                                "F1_Score":metrics.f1_score(model.predict(X_val), y_val),
                                "Std_Error":cv_results.std()},
                                ignore_index=True )
-    print(scores.sort_values(by = "Accuracy", ascending = False))
+    print(scores.sort_values(by = "Score", ascending = False))
     return scores
 
 
@@ -53,8 +53,8 @@ if __name__ == "__main__":
     seed = config.SEED
     X_train =  pd.read_csv("../input/X_train.csv")
     y_train =  pd.read_csv("../input/y_train.csv").values.ravel()
-    X_val =  pd.read_csv("../input/X_val.csv")
-    y_val =  pd.read_csv("../input/y_val.csv").values.ravel()
+    X_val =  pd.read_csv("../input/X_test.csv")
+    y_val =  pd.read_csv("../input/y_test.csv").values.ravel()
     # y_val =  pd.read_csv("../input/y_val.csv")
     print("Train shapes:", X_train.shape, y_train.shape)
     print("Val shapes:", X_val.shape, y_val.shape)

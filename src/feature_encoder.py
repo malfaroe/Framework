@@ -59,7 +59,7 @@ else:
     #Rescale train
     #Rescaling for working with linear models and ensemble together
     train = Rescaler(train, target = config.TARGET)
-    train.to_csv("../input/train_final.csv",
+    train.to_csv("../input/new_train_final.csv",
     index  = False)
     
 
