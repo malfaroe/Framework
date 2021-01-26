@@ -26,7 +26,7 @@ print("Num feats:", num_feats)
 
 #########
 # # Categorical processing
-# # Crear combinaciones de categoricals
+# Crear combinaciones de categoricals
 # pairs = list(combinations(cat_feats, 2))
 # for pair in pairs:
 #     df_sel[pair[0] + "_" + pair[1]] = df_sel[pair[0]].astype(str)+ "_" 

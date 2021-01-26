@@ -57,7 +57,7 @@ if __name__ == "__main__":
     y_val =  pd.read_csv("../input/y_test.csv").values.ravel()
     # y_val =  pd.read_csv("../input/y_val.csv")
     print("Train shapes:", X_train.shape, y_train.shape)
-    print("Val shapes:", X_val.shape, y_val.shape)
+    print("Test set shape:", X_val.shape, y_val.shape)
 
     scoring = config.SCORING
     all_files = glob.glob("../models/bestModels" + "/*.bin")
