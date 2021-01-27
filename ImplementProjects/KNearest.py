@@ -1,4 +1,4 @@
-mport pandas as pd
+import pandas as pd
 import numpy as np
 from statistics import mode
 from sklearn.metrics import accuracy_score
@@ -41,4 +41,25 @@ class KNearest():
             if sc > maximo[1]:
                 maximo = (k+1, sc)
         return maximo
+    
+
+if __name__ == "__main__":
+    df = pd.read_csv("new_train_final_2.csv")
+    target = "Survived"
+    seed = 42
+    y = df.pop(target)
+    X = df
+    #Rescaling
+    scaler = StandardScaler()
+    XRescaled = scaler.fit_transform(X)
+    X = pd.DataFrame(XRescaled, columns = X.columns)
+    X_train, X_test, y_train, y_test = train_test_split(X,y, test_size = 0.2, random_state = 42)
+    train = pd.concat((X_train, y_train), axis =1)
+    test = pd.concat((X_test, y_test), axis =1)
+    kn = KNearest()
+    k_opt = kn.k_optimal(train, X_test,y_test, target)[0]
+    y_pred = kn.predict(train, X_test, target, k = k_opt)
+    print("Score:", kn.scorer(y_test, y_pred))
+    print("Optimal k:", k_opt)
+
     
