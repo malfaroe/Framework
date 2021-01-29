@@ -6,16 +6,33 @@ from sklearn.metrics import accuracy_score
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
+""" Classifier implementing the K-Nearest neighbors vote
+
+Operation:
+- Use the predict method for predicting  the class of a X_test set, taking
+the entire X_train set and k number of neighbors:
+Example: y_predict = predict(X_train, X_test, target, k) returns an array of predictions
+
+- Use the scorer method for getting a score of the accuracy for the predicted values:
+Exammple: score = scorer(y_pred, y), where y_pred is the predicted values from
+the predict method and y is the vector of observed values 
+
+- Additionally: use the k_optimal method for getting the best k neighbors 
+that optimize the score
+
+Note: Distance measures are strongly affected by the scale of the input data.
+Experiment with standardization and other data preparation methods in order to improve results."""
+
 class KNearest():
     def __init__(self):
         pass
     
-    def euclidean_distance(self, x1, x2):
+    def euclidean_distance(self, x1, x2): #distance between two vectors
         x1 = np.array(x1)
         x2 = np.array(x2)
         return np.sqrt(np.sum((x2 - x1)**2, axis = 1).astype("float"))
 
-    def k_calc(self, df, x, target, k):
+    def k_calc(self, df, x, target, k):#Get the k nearest neighbors
         df["euc"] = self.euclidean_distance(df.iloc[:, df.columns!= target], x)
         k_values = list(df.sort_values(by = "euc", ascending = True)[:k][target].values)
         y_k = max(k_values)
@@ -23,9 +40,7 @@ class KNearest():
         return y_k
 
     def predict(self, df, x, target, k):
-        y_predict = []
-        for i in range(len(x)):
-            y_predict.append(self.k_calc(df, x.iloc[i,:], target, k))
+        y_predict = [self.k_calc(df, x.iloc[i,:], target, k) for i in range(len(x))]
         return np.array(y_predict)
 
     def scorer(self, y_pred, y):
@@ -42,10 +57,10 @@ class KNearest():
                 maximo = (k+1, sc)
         return maximo
     
-
+# Testing
 if __name__ == "__main__":
-    df = pd.read_csv("new_train_final_2.csv")
-    target = "Survived"
+    df = pd.read_csv("abalone_m.csv")
+    target = "Rings"
     seed = 42
     y = df.pop(target)
     X = df
@@ -63,3 +78,8 @@ if __name__ == "__main__":
     print("Optimal k:", k_opt)
 
     
+"""Next devs:
+0. Why k = 1 is always the optimal???
+1. Benchmark testing of classifier with sklearn module
+2. KNearest Regressor
+3. Plots of clustered classes?"""
