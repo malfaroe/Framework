@@ -16,19 +16,22 @@ from numpy.linalg import inv
 import matplotlib.pyplot as plt
 
 
+
 class OLS_Mult():
     def __init__(self):
         pass
 
-    def fit(self, X,y):  
-         #Computes vector of coefficients beta
+    def fit(self, X,y):  #Computes vector of coefficients Beta
+        #Add one column of ones
+        X = np.append(np.ones((X.shape[0],1)), X, axis = 1)
         r = inv(np.dot(X.transpose(), X))
         m = np.dot(X.transpose(), y)
         beta = np.dot(r,m)
         return beta
     
     def predict(self, X):
-        return np.dot(X, beta.transpose())
+        X = np.append(np.ones((X.shape[0],1)), X, axis = 1 )
+        return np.dot(X, beta)
 
     def score(self, y_predict, y):
         return np.round(r2_score(y_predict, y),3)
@@ -47,3 +50,4 @@ if __name__ == "__main__":
     print("r2 score on test set:", ols.score(y_test,y_pred))
     rmse = mean_squared_error(y_test, y_pred, squared=True)
     print("RMSE on test set:", rmse)
+   
